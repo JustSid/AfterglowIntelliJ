@@ -1,6 +1,7 @@
 package com.widerwille.afterglow;
 
 import com.intellij.lang.Language;
+import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -17,6 +18,8 @@ public class AfterglowIcons
 	public static final Icon ANY = IconLoader.getIcon("/icons/file_type_default.png");
 	public static final Icon CFILE = IconLoader.getIcon("/icons/file_type_c.png");
 	public static final Icon CPPFILE = IconLoader.getIcon("/icons/file_type_c++.png");
+	public static final Icon MFILE = IconLoader.getIcon("/icons/file_type_objectivec.png");
+	public static final Icon HEADER = IconLoader.getIcon("/icons/file_type_header.png");
 	public static final Icon RUBY = IconLoader.getIcon("/icons/file_type_ruby.png");
 	public static final Icon PYTHON = IconLoader.getIcon("/icons/file_type_python.png");
 	public static final Icon JAVASCRIPT = IconLoader.getIcon("/icons/file_type_js.png");
@@ -24,6 +27,8 @@ public class AfterglowIcons
 	public static final Icon MARKDOWN = IconLoader.getIcon("/icons/file_type_markdown.png");
 	public static final Icon GIT = IconLoader.getIcon("/icons/file_type_git.png");
 	public static final Icon FONT = IconLoader.getIcon("/icons/file_type_font.png");
+	public static final Icon HTML = IconLoader.getIcon("/icons/file_type_html.png");
+	public static final Icon CSS = IconLoader.getIcon("/icons/file_type_css.png");
 	public static final Icon XML = IconLoader.getIcon("/icons/file_type_markup.png");
 	public static final Icon JSON = IconLoader.getIcon("/icons/file_type_settings.png");
 	public static final Icon YAML = IconLoader.getIcon("/icons/file_type_yaml.png");
@@ -31,6 +36,7 @@ public class AfterglowIcons
 	public static final Icon NPM = IconLoader.getIcon("/icons/file_type_npm.png");
 	public static final Icon BINARY = IconLoader.getIcon("/icons/file_type_binary.png");
 	public static final Icon TEXT = IconLoader.getIcon("/icons/file_type_text.png");
+	public static final Icon IMAGE = IconLoader.getIcon("/icons/file_type_image.png");
 
 	public AfterglowIcons()
 	{}
@@ -38,6 +44,9 @@ public class AfterglowIcons
 	@Nullable
 	public static final Icon getIcon(VirtualFile file, int flags, @Nullable Project project)
 	{
+		if(file.isDirectory())
+			return DIRECTORY;
+
 		String extension = file.getExtension();
 		if(extension == null)
 		{
@@ -52,14 +61,17 @@ public class AfterglowIcons
 
 		switch(extension.toLowerCase())
 		{
-			case "cpp":
+			case "h":
 			case "hpp":
-			case "mm":
+			case "pch":
+				return HEADER;
+			case "cpp":
 				return CPPFILE;
 			case "c":
-			case "h":
-			case "m":
 				return CFILE;
+			case "mm":
+			case "m":
+				return MFILE;
 
 			case "gitignore":
 			case "gitmodules":
@@ -97,6 +109,7 @@ public class AfterglowIcons
 				return SHELL;
 
 			case "txt":
+			case "strings":
 				// Special case
 				if(PlatformUtils.isCLion())
 				{
@@ -127,9 +140,23 @@ public class AfterglowIcons
 
 				return JSON;
 			case "xml":
+			case "plist":
 				return XML;
 			case "yml":
 				return YAML;
+			case "html":
+			case "xhtml":
+				return HTML;
+			case "css":
+				return CSS;
+
+
+			case "png":
+			case "jpg":
+			case "tga":
+			case "bmp":
+			case "gif":
+				return IMAGE;
 
 			default:
 				Language language = null;
@@ -156,7 +183,8 @@ public class AfterglowIcons
 					}
 				}
 
-				return ANY;
+				FileType type = file.getFileType();
+				return type.isBinary() ? BINARY : ANY;
 		}
 	}
 }

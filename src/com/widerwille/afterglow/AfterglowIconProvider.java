@@ -20,8 +20,7 @@ public class AfterglowIconProvider extends IconProvider implements DumbAware
 		if(containingFile != null)
 		{
 			VirtualFile vFile = containingFile.getVirtualFile();
-
-			if(vFile != null && vFile.isDirectory())
+			if(vFile == null)
 				return AfterglowIcons.DIRECTORY;
 
 			return AfterglowIcons.getIcon(vFile, flags, null);
