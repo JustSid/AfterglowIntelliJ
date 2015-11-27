@@ -44,7 +44,40 @@ public class AfterglowIDEComponent implements ProjectComponent
 
 	private void fixProjectViewPane()
 	{
-		AbstractProjectViewPane projectViewPane = ProjectView.getInstance(project).getProjectViewPaneById(ProjectViewPane.ID);
+		Collection<String> paneIDs = ProjectView.getInstance(project).getPaneIds();
+		if(paneIDs.size() == 0)
+		{
+			java.util.Timer timer = new java.util.Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run()
+				{
+					fixProjectViewPane();
+				}
+			}, 100);
+
+			return;
+		}
+
+		for(String id : paneIDs)
+			fixPane(id, 10);
+	}
+
+	private void fixPane(String paneID, int left)
+	{
+		if(left == 0)
+			return;
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				__fixPane(paneID, left);
+			}
+		});
+	}
+
+	private void __fixPane(String paneID, int left)
+	{
+		AbstractProjectViewPane projectViewPane = ProjectView.getInstance(project).getProjectViewPaneById(paneID);
 
 		if(projectViewPane != null)
 		{
@@ -56,7 +89,7 @@ public class AfterglowIDEComponent implements ProjectComponent
 					@Override
 					public void run()
 					{
-						fixProjectViewPane();
+						fixPane(paneID, left - 1);
 					}
 				}, 500);
 
