@@ -173,6 +173,8 @@ public class AfterglowIcons
 			case "strings":
 				return TEXT;
 
+			case "git file":
+				return GIT;
 
 			case "plain_text":
 			{
