@@ -176,6 +176,12 @@ public class AfterglowIcons
 			case "git file":
 				return GIT;
 
+			case "npm file":
+				return NPM;
+
+			case "markdown":
+				return MARKDOWN;
+
 			case "plain_text":
 			{
 				Icon icon = getIconForExtension(extension);
