@@ -5,7 +5,8 @@
     <vendor email="justsid@widerwille.com" url="http://widerwille.com">Sidney Just</vendor>
 
     <description><![CDATA[
-      Theme based on the <a href="https://github.com/YabataDesign/afterglow-theme">Afterglow Sublime Text</a> theme.
+      Theme based on the <a href="https://github.com/YabataDesign/afterglow-theme">Afterglow Sublime Text</a> theme. It replaces the sidebar icons and sidebar background colour, source code is available
+      under the MIT license on <a href="https://github.com/JustSid/AfterglowIntelliJ">Github</a>.
     ]]></description>
 
     <change-notes><![CDATA[
