@@ -47,6 +47,8 @@ public class AfterglowIcons
 	public static final void PrepareIcons()
 	{
 		DIRECTORY = new AfterglowTintedIcon(DIRECTORY, new Color(80, 110, 132));
+
+		UIManager.put("Tree.selectionBackground", new Color(54, 54, 54));
 	}
 
 	@Nullable
