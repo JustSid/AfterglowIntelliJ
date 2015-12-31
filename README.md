@@ -4,7 +4,10 @@ This theme for IntelliJ is based on the the [Afterglow Sublime Text](https://git
 and replaces the default sidebar icons and colour of IntelliJ. It should be compatible with all IntelliJ IDEs and has been tested
  with IntelliJ IDEA Ultimate, CLion, AppCode, WebStorm, PyCharm and RubyMine.
 The plugin can be downloaded at the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/8066)
- 
+
+This theme looks best with the [Afterglow Color Scheme](https://github.com/boneskull/jetbrains-afterglow-scheme) by
+[boneskull](https://github.com/boneskull), which implements the Afterglow Sublime Text color scheme.
+
 # Screenshot
 
 Pictures, thousand words etc:
