@@ -9,10 +9,11 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AfterglowIcons
 {
-	public static final Icon DIRECTORY = IconLoader.getIcon("/icons/folder.png");
+	public static Icon DIRECTORY = IconLoader.getIcon("/icons/folder.png");
 	public static final Icon ANY = IconLoader.getIcon("/icons/file_type_default.png");
 	public static final Icon CFILE = IconLoader.getIcon("/icons/file_type_c.png");
 	public static final Icon CPPFILE = IconLoader.getIcon("/icons/file_type_c++.png");
@@ -43,8 +44,10 @@ public class AfterglowIcons
 	public static final Icon IMAGE = IconLoader.getIcon("/icons/file_type_image.png");
 	public static final Icon SQL = IconLoader.getIcon("/icons/file_type_sql.png");
 
-	public AfterglowIcons()
-	{}
+	public static final void PrepareIcons()
+	{
+		DIRECTORY = new AfterglowTintedIcon(DIRECTORY, new Color(80, 110, 132));
+	}
 
 	@Nullable
 	public static final Icon getIconForExtension(@NotNull String extension)
