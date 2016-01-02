@@ -18,8 +18,6 @@ public class AfterglowIconPack implements ApplicationComponent
 
 	public void initComponent()
 	{
-		AfterglowIcons.PrepareIcons();
-
 		replacements.put("/modules/sourceRoot.png", "/icons/folder.png");
 		replacements.put("/modules/sourceFolder.png", "/icons/folder.png");
 		replacements.put("/modules/moduleGroup.png", "/icons/folder.png");

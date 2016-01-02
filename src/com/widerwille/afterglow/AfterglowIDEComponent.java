@@ -2,10 +2,7 @@ package com.widerwille.afterglow;
 
 import com.intellij.ide.projectView.ProjectView;
 import com.intellij.ide.projectView.impl.AbstractProjectViewPane;
-import com.intellij.ide.projectView.impl.ProjectViewPane;
 import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
@@ -95,8 +92,6 @@ public class AfterglowIDEComponent implements ProjectComponent
 
 				return;
 			}
-
-			final EditorColorsScheme globalScheme = EditorColorsManager.getInstance().getGlobalScheme();
 
 			tree.setBackground(new Color(32, 32, 32));
 			tree.setForeground(new Color(160, 160, 160));

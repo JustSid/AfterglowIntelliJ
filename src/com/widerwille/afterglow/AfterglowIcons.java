@@ -44,11 +44,9 @@ public class AfterglowIcons
 	public static final Icon IMAGE = IconLoader.getIcon("/icons/file_type_image.png");
 	public static final Icon SQL = IconLoader.getIcon("/icons/file_type_sql.png");
 
-	public static final void PrepareIcons()
+	public static final void applyDirectoryTint(Color color)
 	{
-		DIRECTORY = new AfterglowTintedIcon(DIRECTORY, new Color(80, 110, 132));
-
-		UIManager.put("Tree.selectionBackground", new Color(54, 54, 54));
+		DIRECTORY = new AfterglowTintedIcon(DIRECTORY, color);
 	}
 
 	@Nullable
