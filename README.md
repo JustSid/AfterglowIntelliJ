@@ -10,7 +10,9 @@ This theme looks best with the [Afterglow Color Scheme](https://github.com/bones
 
 # Screenshot
 
-Pictures, thousand words etc:
+Pictures, thousand words etc. Note that Afterglow IntelliJ comes with the original themes found in the Sublime Text plugin,
+but the screenshot only shows four. The themes are: Default (White), Blue, Magenta, Orange and Green and the theme can
+be switched via the IntelliJ settings dialogue.
 
 ![Screenshot](./Screenshot.png)
 
