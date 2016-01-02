@@ -28,30 +28,37 @@ public class AfterglowTheme implements ApplicationComponent
 
 	public void initComponent()
 	{
+		Color selectionColor = new Color(54, 54, 54);
+		Color backgroundColor = new Color(32, 32, 32);
+		Color textColor = new Color(160, 160, 160);
+
 		// This is a very evil hack
 		// Basically the UIUtil class tries to figure out which colour to use for the selected
 		// cell, and when the cell doesn't have the focus, it checks wether "Tree.textBackground"
 		// is dark or not. If it's dark, it will return a hard coded color, but, if it's light
 		// it will return a static field color... Which we can force replace. Yay for hacks
-		Color color = new Color(54, 54, 54);
 
-		UIManager.put("Tree.selectionBackground", color);
-		UIManager.put("Tree.textBackground", new Color(255, 255, 255, 0));
+		/*UIManager.put("Tree.textBackground", new Color(255, 255, 255, 0));
 
 		try
 		{
-			setFinalStatic(UIUtil.class, "UNFOCUSED_SELECTION_COLOR", color);
+			setFinalStatic(UIUtil.class, "UNFOCUSED_SELECTION_COLOR", selectionColor);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-		}
+		}*/
+
+		// The above hack is GREAT! Except it breaks other trees, and I can't figure out how to fix them
+		// so screw it... I'll go back to thee and hack you even more!
+
 
 		// General colours
-		UIManager.put("Tree.background", new Color(32, 32, 32));
-		UIManager.put("EditorPane.background", new Color(32, 32, 32));
+		UIManager.put("Tree.background", backgroundColor);
+		UIManager.put("Tree.textBackground", backgroundColor);
+		UIManager.put("Tree.selectionBackground", selectionColor);
 
-		UIManager.put("Tree.foreground", new Color(160, 160, 160));
+		UIManager.put("Tree.foreground", textColor);
 
 		applyTheme(Theme.Green);
 
