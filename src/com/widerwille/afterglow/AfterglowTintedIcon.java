@@ -1,5 +1,6 @@
 package com.widerwille.afterglow;
 
+import com.intellij.util.RetinaImage;
 import com.intellij.util.ui.UIUtil;
 
 import javax.swing.*;
@@ -41,6 +42,17 @@ public class AfterglowTintedIcon implements Icon
 			}
 		}
 	}
+
+	public BufferedImage getImage()
+	{
+		return image;
+	}
+
+	public boolean isRetina()
+	{
+		return UIUtil.isRetina();
+	}
+
 
 	private Color multiplyColor(Color color1, Color color2)
 	{

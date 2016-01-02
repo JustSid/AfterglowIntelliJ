@@ -8,8 +8,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class AfterglowIcons
 {
@@ -45,13 +48,52 @@ public class AfterglowIcons
 	public static final Icon IMAGE = IconLoader.getIcon("/icons/file_type_image.png");
 	public static final Icon SQL = IconLoader.getIcon("/icons/file_type_sql.png");
 
-	public static final void applyDirectoryTint(Color color)
+	public static String DIRECTORY_FILE = "/icons/folder.png";
+	private static File tempIcon = null;
+
+	public static void applyDirectoryTint(Color color)
 	{
-		DIRECTORY = new AfterglowTintedIcon(DIRECTORY_ORIGINAL, color);
+		AfterglowTintedIcon tintedIcon = new AfterglowTintedIcon(DIRECTORY_ORIGINAL, color);
+		DIRECTORY = tintedIcon;
+
+		try
+		{
+			if(tempIcon != null)
+			{
+				tempIcon.delete();
+				tempIcon = null;
+			}
+
+			String suffix = tintedIcon.isRetina() ? "@2x.png" : ".png";
+
+			tempIcon = File.createTempFile("AfterglowTintedDirectory", suffix);
+			ImageIO.write(tintedIcon.getImage(), "png", tempIcon);
+
+			String path = tempIcon.getParent();
+			String name = tempIcon.getName();
+
+			DIRECTORY_FILE = path + "/" + name.substring(0, name.length() - suffix.length()) + ".png";
+		}
+		catch(IOException e)
+		{
+			DIRECTORY_FILE = "/icons/folder.png";
+			tempIcon = null;
+		}
 	}
 
+	public static void cleanUp()
+	{
+		if(tempIcon != null)
+		{
+			tempIcon.delete();
+			tempIcon = null;
+		}
+	}
+
+
+
 	@Nullable
-	public static final Icon getIconForExtension(@NotNull String extension)
+	public static Icon getIconForExtension(@NotNull String extension)
 	{
 		switch(extension)
 		{
@@ -85,7 +127,7 @@ public class AfterglowIcons
 	}
 
 	@Nullable
-	public static final Icon getIcon(VirtualFile file, int flags, @Nullable Project project)
+	public static Icon getIcon(VirtualFile file, int flags, @Nullable Project project)
 	{
 		if(file.isDirectory())
 			return DIRECTORY;

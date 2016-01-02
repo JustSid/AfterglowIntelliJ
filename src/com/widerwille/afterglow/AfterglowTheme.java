@@ -2,6 +2,8 @@ package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.ui.UIUtil;
@@ -85,7 +87,9 @@ public class AfterglowTheme implements ApplicationComponent
 	}
 
 	public void disposeComponent()
-	{}
+	{
+		AfterglowIcons.cleanUp();
+	}
 
 	@NotNull
 	public String getComponentName()
@@ -119,6 +123,9 @@ public class AfterglowTheme implements ApplicationComponent
 		}
 
 		AfterglowIcons.applyDirectoryTint(directoryColor);
+		Application app = ApplicationManager.getApplication();
+
+		app.getComponent(AfterglowIconPack.class).fixIcons();
 		activeTheme = theme;
 
 		PropertiesComponent component = PropertiesComponent.getInstance();

@@ -2,6 +2,7 @@ package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,19 +19,12 @@ public class AfterglowIconPack implements ApplicationComponent
 
 	public void initComponent()
 	{
-		replacements.put("/modules/sourceRoot.png", "/icons/folder.png");
-		replacements.put("/modules/sourceFolder.png", "/icons/folder.png");
-		replacements.put("/modules/moduleGroup.png", "/icons/folder.png");
-		replacements.put("/nodes/TreeClosed.png", "/icons/folder.png");
-
 		replacements.put("/fileTypes/anyType.png", "/icons/file_type_default.png");
 		replacements.put("/fileTypes/css.png", "/icons/file_type_css.png");
 		replacements.put("/fileTypes/xslt.png", "/icons/file_type_source.png");
 		replacements.put("/fileTypes/html.png", "/icons/file_type_html.png");
 		replacements.put("/fileTypes/javaScript.png", "/icons/file_type_js.png");
 		replacements.put("/fileTypes/text.png", "/icons/file_type_text.png");
-
-		fixIcons(AllIcons.class);
 	}
 
 	public void disposeComponent()
@@ -44,6 +38,15 @@ public class AfterglowIconPack implements ApplicationComponent
 
 
 
+	public void fixIcons()
+	{
+		replacements.put("/modules/sourceRoot.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/modules/sourceFolder.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/modules/moduleGroup.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/nodes/TreeClosed.png", AfterglowIcons.DIRECTORY_FILE);
+
+		fixIcons(AllIcons.class);
+	}
 
 	private void fixIcons(Class iconsClass)
 	{
@@ -110,13 +113,13 @@ public class AfterglowIconPack implements ApplicationComponent
 				if(replacement != null)
 				{
 					URL newUrl = AfterglowIconPack.class.getResource(replacement);
-					if(newUrl != null)
-					{
-						iconField.setAccessible(true);
-						iconField.set(object, null);
+					if(newUrl == null)
+						newUrl = new URL("file://" + replacement);
 
-						urlField.set(object, newUrl);
-					}
+					iconField.setAccessible(true);
+					iconField.set(object, null);
+
+					urlField.set(object, newUrl);
 				}
 			}
 		}
