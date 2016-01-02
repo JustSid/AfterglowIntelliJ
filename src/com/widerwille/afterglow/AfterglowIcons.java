@@ -13,7 +13,8 @@ import java.awt.*;
 
 public class AfterglowIcons
 {
-	public static Icon DIRECTORY = IconLoader.getIcon("/icons/folder.png");
+	public static final Icon DIRECTORY_ORIGINAL = IconLoader.getIcon("/icons/folder.png");
+	public static Icon DIRECTORY = DIRECTORY_ORIGINAL;
 	public static final Icon ANY = IconLoader.getIcon("/icons/file_type_default.png");
 	public static final Icon CFILE = IconLoader.getIcon("/icons/file_type_c.png");
 	public static final Icon CPPFILE = IconLoader.getIcon("/icons/file_type_c++.png");
@@ -46,7 +47,7 @@ public class AfterglowIcons
 
 	public static final void applyDirectoryTint(Color color)
 	{
-		DIRECTORY = new AfterglowTintedIcon(DIRECTORY, color);
+		DIRECTORY = new AfterglowTintedIcon(DIRECTORY_ORIGINAL, color);
 	}
 
 	@Nullable

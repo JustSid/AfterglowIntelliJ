@@ -1,6 +1,7 @@
 package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.ui.UIUtil;
@@ -22,8 +23,11 @@ public class AfterglowTheme implements ApplicationComponent
 		Green
 	}
 
-	public static final Icon ExpandedIcon = IconLoader.getIcon("/icons/folder-open.png");
-	public static final Icon CollapsedIcon = IconLoader.getIcon("/icons/folder-closed.png");
+	private static final Icon ExpandedIcon = IconLoader.getIcon("/icons/folder-open.png");
+	private static final Icon CollapsedIcon = IconLoader.getIcon("/icons/folder-closed.png");
+	private static Theme activeTheme;
+
+	private static final String THEME_KEY = "com.widerwille.Afterglow.theme";
 
 
 	public void initComponent()
@@ -60,8 +64,6 @@ public class AfterglowTheme implements ApplicationComponent
 
 		UIManager.put("Tree.foreground", textColor);
 
-		applyTheme(Theme.Green);
-
 		// Icons
 		try
 		{
@@ -75,6 +77,11 @@ public class AfterglowTheme implements ApplicationComponent
 		{
 			e.printStackTrace();
 		}
+
+
+		PropertiesComponent component = PropertiesComponent.getInstance();
+		String theme = component.getValue(THEME_KEY, "Default");
+		applyTheme(getThemeForString(theme));
 	}
 
 	public void disposeComponent()
@@ -88,7 +95,7 @@ public class AfterglowTheme implements ApplicationComponent
 
 	public static void applyTheme(Theme theme)
 	{
-		Color directoryColor = null;
+		Color directoryColor;
 
 		switch(theme)
 		{
@@ -112,8 +119,50 @@ public class AfterglowTheme implements ApplicationComponent
 		}
 
 		AfterglowIcons.applyDirectoryTint(directoryColor);
+		activeTheme = theme;
+
+		PropertiesComponent component = PropertiesComponent.getInstance();
+		component.setValue(THEME_KEY, getStringForTheme(activeTheme));
 	}
 
+	public static Theme getActiveTheme()
+	{
+		return activeTheme;
+	}
+
+
+
+	public static String getStringForTheme(Theme theme)
+	{
+		switch(theme)
+		{
+			case Blue:
+				return "Blue";
+			case Magenta:
+				return "Magenta";
+			case Orange:
+				return "Orange";
+			case Green:
+				return "Green";
+
+			case Default:
+			default:
+				return "Default";
+		}
+	}
+	public static Theme getThemeForString(String string)
+	{
+		if(string.equals("Blue"))
+			return Theme.Blue;
+		else if(string.equals("Magenta"))
+			return Theme.Magenta;
+		else if(string.equals("Orange"))
+			return Theme.Orange;
+		else if(string.equals("Green"))
+			return Theme.Green;
+
+		return Theme.Default;
+	}
 
 
 
