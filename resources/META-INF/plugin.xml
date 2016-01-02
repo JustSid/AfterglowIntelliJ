@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.widerwille.afterglow</id>
     <name>Afterglow Theme</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="justsid@widerwille.com" url="http://widerwille.com">Sidney Just</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    <ul><h3><b>1.0.3</b></h3>
+      <li>Fixed some directories not being coloured properply, this especially affected AppCode. Sorry, got too excited with the previous release and released it too early</li>
+      <li>Fixed the change log HTML</li>
+    </ul>
     <ul><h3><b>1.0.2</b></h3>
       <li>Added support for the original Afterglow color schemes (default, blue, green, orange and magenta). This can be changed in the settings</li>
       <li>Replaced the default collapse and expand icons with the + and - icons from Afterglow</li>
