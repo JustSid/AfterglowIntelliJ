@@ -31,12 +31,6 @@
         </component>
     </application-components>
 
-    <project-components>
-        <component>
-            <implementation-class>com.widerwille.afterglow.AfterglowIDEComponent</implementation-class>>
-        </component>
-    </project-components>
-
     <extensions defaultExtensionNs="com.intellij">
         <fileIconProvider implementation="com.widerwille.afterglow.AfterglowFileIconProvider" order="FIRST"/>
         <iconProvider implementation="com.widerwille.afterglow.AfterglowIconProvider" order="FIRST"/>
