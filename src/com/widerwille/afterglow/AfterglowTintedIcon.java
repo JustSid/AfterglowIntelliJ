@@ -1,6 +1,5 @@
 package com.widerwille.afterglow;
 
-import com.intellij.ui.JBColor;
 import com.intellij.util.ui.UIUtil;
 
 import javax.swing.*;
@@ -41,8 +40,6 @@ public class AfterglowTintedIcon implements Icon
 				}
 			}
 		}
-
-		//image = imageIcon;
 	}
 
 	private Color multiplyColor(Color color1, Color color2)
@@ -60,7 +57,7 @@ public class AfterglowTintedIcon implements Icon
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y)
 	{
-		g.drawImage(image, 0, 0, getIconWidth(), getIconHeight(), c);
+		g.drawImage(image, x, y, getIconWidth(), getIconHeight(), c);
 	}
 
 
