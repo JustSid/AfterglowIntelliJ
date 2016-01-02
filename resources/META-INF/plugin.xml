@@ -1,16 +1,19 @@
 <idea-plugin version="2">
     <id>com.widerwille.afterglow</id>
     <name>Afterglow Theme</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="justsid@widerwille.com" url="http://widerwille.com">Sidney Just</vendor>
 
     <description><![CDATA[
       <p>Theme based on the <a href="https://github.com/YabataDesign/afterglow-theme">Afterglow Sublime Text</a> theme. It replaces the sidebar icons and sidebar background colour, source code is available
-      under the MIT license on <a href="https://github.com/JustSid/AfterglowIntelliJ">Github</a>.</p>
+      under the MIT license on <a href="https://github.com/JustSid/AfterglowIntelliJ">Github</a>. This theme is an extension of the Darcular theme, which should be applied.</p>
       <p>Forks and pull requests are welcome, although I also take Github issues :)</p>
     ]]></description>
 
     <change-notes><![CDATA[
+    <ul><h3><b>1.0.2</b></h3>
+      <li>Added support for the original Afterglow color schemes (default, blue, green, orange and magenta). This can be changed in the settings</li>
+      <li>Replaced the default collapse and expand icons with the + and - icons from Afterglow</li>
       <ul><h3><b>1.0.1</b></h3>
       <li>Added support for the Markdown and MarkdownSupport plugin</li>
       <li>Added support for the 'npm file' file type</li>
