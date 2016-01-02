@@ -14,6 +14,7 @@
     <ul><h3><b>1.0.2</b></h3>
       <li>Added support for the original Afterglow color schemes (default, blue, green, orange and magenta). This can be changed in the settings</li>
       <li>Replaced the default collapse and expand icons with the + and - icons from Afterglow</li>
+    </ul>
       <ul><h3><b>1.0.1</b></h3>
       <li>Added support for the Markdown and MarkdownSupport plugin</li>
       <li>Added support for the 'npm file' file type</li>
