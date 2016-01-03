@@ -228,6 +228,9 @@ public class AfterglowIcons
 			case "markdown":
 				return MARKDOWN;
 
+			case "bash":
+				return SHELL;
+
 			case "plain_text":
 			{
 				Icon icon = getIconForExtension(extension);
