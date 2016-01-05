@@ -42,6 +42,8 @@ public class AfterglowIcons
 	public static final Icon JSON = IconLoader.getIcon("/file-icons/file_type_settings.png");
 	public static final Icon YAML = IconLoader.getIcon("/file-icons/file_type_yaml.png");
 	public static final Icon GRUNT = IconLoader.getIcon("/file-icons/file_type_gruntfile.png");
+	public static final Icon GULP = IconLoader.getIcon("/file-icons/file_type_gulpfile.png");
+	public static final Icon BOWER = IconLoader.getIcon("/file-icons/file_type_bower.png");
 	public static final Icon NPM = IconLoader.getIcon("/file-icons/file_type_npm.png");
 	public static final Icon BINARY = IconLoader.getIcon("/file-icons/file_type_binary.png");
 	public static final Icon TEXT = IconLoader.getIcon("/file-icons/file_type_text.png");
@@ -170,6 +172,8 @@ public class AfterglowIcons
 			case "json":
 				if(file.getName().equalsIgnoreCase("package.json"))
 					return NPM;
+				if(file.getName().equalsIgnoreCase("bower.json"))
+					return BOWER;
 
 				return JSON;
 			case "xml":
@@ -191,6 +195,8 @@ public class AfterglowIcons
 
 				if(file.getName().equalsIgnoreCase("gruntfile.js"))
 					return GRUNT;
+				if(file.getName().equalsIgnoreCase("gulpfile.js"))
+					return GULP;
 
 				return JAVASCRIPT;
 			case "coffeescript":
