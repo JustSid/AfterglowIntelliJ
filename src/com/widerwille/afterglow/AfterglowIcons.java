@@ -49,6 +49,7 @@ public class AfterglowIcons
 	public static final Icon TEXT = IconLoader.getIcon("/file-icons/file_type_text.png");
 	public static final Icon IMAGE = IconLoader.getIcon("/file-icons/file_type_image.png");
 	public static final Icon SQL = IconLoader.getIcon("/file-icons/file_type_sql.png");
+	public static final Icon SCALA = IconLoader.getIcon("/file-icons/file_type_scala.png");
 
 	public static String DIRECTORY_FILE = "/icons/folder.png";
 	private static File tempIcon = null;
@@ -236,6 +237,9 @@ public class AfterglowIcons
 
 			case "bash":
 				return SHELL;
+				
+			case "scala":
+				return SCALA;
 
 			case "plain_text":
 			{
