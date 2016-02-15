@@ -43,7 +43,11 @@ public class AfterglowIconPack implements ApplicationComponent
 		replacements.put("/modules/sourceRoot.png", AfterglowIcons.DIRECTORY_FILE);
 		replacements.put("/modules/sourceFolder.png", AfterglowIcons.DIRECTORY_FILE);
 		replacements.put("/modules/moduleGroup.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/nodes/folder.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/nodes/newFolder.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/nodes/TreeOpen.png", AfterglowIcons.DIRECTORY_FILE);
 		replacements.put("/nodes/TreeClosed.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/nodes/ppFile.png", AfterglowIcons.DIRECTORY_FILE);
 
 		fixIcons(AllIcons.class);
 	}
