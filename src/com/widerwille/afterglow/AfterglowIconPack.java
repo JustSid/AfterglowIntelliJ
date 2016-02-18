@@ -19,12 +19,12 @@ public class AfterglowIconPack implements ApplicationComponent
 
 	public void initComponent()
 	{
-		replacements.put("/fileTypes/anyType.png", "/icons/file_type_default.png");
-		replacements.put("/fileTypes/css.png", "/icons/file_type_css.png");
-		replacements.put("/fileTypes/xslt.png", "/icons/file_type_source.png");
-		replacements.put("/fileTypes/html.png", "/icons/file_type_html.png");
-		replacements.put("/fileTypes/javaScript.png", "/icons/file_type_js.png");
-		replacements.put("/fileTypes/text.png", "/icons/file_type_text.png");
+		replacements.put("/fileTypes/anyType.png", "/file-icons/file_type_default.png");
+		replacements.put("/fileTypes/css.png", "/file-icons/file_type_css.png");
+		replacements.put("/fileTypes/xslt.png", "/file-icons/file_type_source.png");
+		replacements.put("/fileTypes/html.png", "/file-icons/file_type_html.png");
+		replacements.put("/fileTypes/javaScript.png", "/file-icons/file_type_js.png");
+		replacements.put("/fileTypes/text.png", "/file-icons/file_type_text.png");
 	}
 
 	public void disposeComponent()
