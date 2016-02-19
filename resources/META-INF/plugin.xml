@@ -48,6 +48,8 @@
         <fileIconProvider implementation="com.widerwille.afterglow.AfterglowFileIconProvider" order="FIRST"/>
         <iconProvider implementation="com.widerwille.afterglow.AfterglowIconProvider" order="FIRST"/>
         <applicationConfigurable implementation="com.widerwille.afterglow.AfterglowConfigurable" />
+        <applicationService serviceInterface="com.widerwille.afterglow.AfterglowSettings"
+                            serviceImplementation="com.widerwille.afterglow.AfterglowSettings" />
     </extensions>
 
 </idea-plugin>

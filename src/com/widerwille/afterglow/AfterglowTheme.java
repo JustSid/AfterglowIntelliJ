@@ -6,7 +6,6 @@ import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.IconLoader;
-import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -28,9 +27,6 @@ public class AfterglowTheme implements ApplicationComponent
 	private static final Icon ExpandedIcon = IconLoader.getIcon("/icons/folder-open.png");
 	private static final Icon CollapsedIcon = IconLoader.getIcon("/icons/folder-closed.png");
 	private static Theme activeTheme;
-
-	private static final String THEME_KEY = "com.widerwille.Afterglow.theme";
-
 
 	public void initComponent()
 	{
@@ -81,8 +77,8 @@ public class AfterglowTheme implements ApplicationComponent
 		}
 
 
-		PropertiesComponent component = PropertiesComponent.getInstance();
-		String theme = component.getValue(THEME_KEY, "Default");
+		AfterglowSettings settings = AfterglowSettings.getInstance();
+		String theme = settings.theme;
 		applyTheme(getThemeForString(theme));
 	}
 
@@ -128,8 +124,8 @@ public class AfterglowTheme implements ApplicationComponent
 		app.getComponent(AfterglowIconPack.class).fixIcons();
 		activeTheme = theme;
 
-		PropertiesComponent component = PropertiesComponent.getInstance();
-		component.setValue(THEME_KEY, getStringForTheme(activeTheme));
+		AfterglowSettings settings = AfterglowSettings.getInstance();
+		settings.theme = getStringForTheme(activeTheme);
 	}
 
 	public static Theme getActiveTheme()
