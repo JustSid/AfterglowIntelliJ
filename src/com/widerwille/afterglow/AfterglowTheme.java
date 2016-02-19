@@ -1,7 +1,6 @@
 package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;

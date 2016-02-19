@@ -1,6 +1,7 @@
 package com.widerwille.afterglow;
 
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -16,11 +17,15 @@ import org.jetbrains.annotations.Nullable;
 )
 public class AfterglowSettings implements PersistentStateComponent<AfterglowSettings> {
 
+    private static final String THEME_IMPORT_KEY = "com.widerwille.Afterglow.theme";
+
     @Tag
     public String theme;
 
     public AfterglowSettings() {
-        theme = "Default";
+
+        PropertiesComponent component = PropertiesComponent.getInstance();
+        theme = component.getValue(THEME_IMPORT_KEY, "Default");
     }
 
     @Nullable
