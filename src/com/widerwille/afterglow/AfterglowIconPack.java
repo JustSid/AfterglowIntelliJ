@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.containers.HashMap;
+import org.apache.commons.lang.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -48,6 +49,15 @@ public class AfterglowIconPack implements ApplicationComponent
 		replacements.put("/nodes/TreeOpen.png", AfterglowIcons.DIRECTORY_FILE);
 		replacements.put("/nodes/TreeClosed.png", AfterglowIcons.DIRECTORY_FILE);
 		replacements.put("/nodes/ppFile.png", AfterglowIcons.DIRECTORY_FILE);
+
+		if(SystemUtils.IS_OS_WINDOWS)
+		{
+			// For some reason Windows seems to have a hard time with absolute paths here
+			// And doesn't load the icon properly. So as a compromise, we use the
+			// untinted icon here instead, the file tree will still be coloured correctly
+			// since that is dynamic. This only affects the File -> New menu from what I can tell
+			replacements.put("/nodes/TreeClosed.png", "/icons/folder.png");
+		}
 
 		fixIcons(AllIcons.class);
 	}
