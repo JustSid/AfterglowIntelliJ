@@ -24,6 +24,7 @@ public class AfterglowIcons
 	public static final Icon CSHARP = IconLoader.getIcon("/file-icons/file_type_c#.png");
 	public static final Icon MFILE = IconLoader.getIcon("/file-icons/file_type_objectivec.png");
 	public static final Icon HEADER = IconLoader.getIcon("/file-icons/file_type_header.png");
+	public static final Icon RUST = IconLoader.getIcon("/file-icons/file_type_rust.png");
 	public static final Icon HASKELL = IconLoader.getIcon("/file-icons/file_type_haskell.png");
 	public static final Icon RUBY = IconLoader.getIcon("/file-icons/file_type_ruby.png");
 	public static final Icon PYTHON = IconLoader.getIcon("/file-icons/file_type_python.png");
@@ -240,6 +241,10 @@ public class AfterglowIcons
 				
 			case "scala":
 				return SCALA;
+
+			case "toml file":
+			case "rust":
+				return RUST;
 
 			case "plain_text":
 			{
