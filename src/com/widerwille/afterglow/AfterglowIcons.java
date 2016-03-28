@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
 
+import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
@@ -135,7 +136,7 @@ public class AfterglowIcons
 	}
 
 	@Nullable
-	public static Icon getIcon(VirtualFile file, int flags, @Nullable Project project)
+	public static Icon getIcon(VirtualFile file)
 	{
 		if(file.isDirectory())
 			return DIRECTORY;

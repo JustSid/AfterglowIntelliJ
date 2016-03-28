@@ -1,6 +1,7 @@
 package com.widerwille.afterglow;
 
 import com.intellij.ide.IconProvider;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -23,7 +24,8 @@ public class AfterglowIconProvider extends IconProvider implements DumbAware
 			if(vFile == null)
 				return AfterglowIcons.DIRECTORY;
 
-			return AfterglowIcons.getIcon(vFile, flags, null);
+			AfterglowIconCache cache = ApplicationManager.getApplication().getComponent(AfterglowIconCache.class);
+			return cache.getIcon(vFile, flags);
 		}
 
 		return AfterglowIcons.DIRECTORY;

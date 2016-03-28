@@ -2,7 +2,6 @@ package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.containers.HashMap;
 import org.apache.commons.lang.SystemUtils;
 import org.jetbrains.annotations.NotNull;
