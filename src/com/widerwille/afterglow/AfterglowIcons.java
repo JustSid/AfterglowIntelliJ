@@ -29,6 +29,7 @@ public class AfterglowIcons
 	public static final Icon RUBY = IconLoader.getIcon("/file-icons/file_type_ruby.png");
 	public static final Icon PYTHON = IconLoader.getIcon("/file-icons/file_type_python.png");
 	public static final Icon JAVASCRIPT = IconLoader.getIcon("/file-icons/file_type_js.png");
+	public static final Icon SWIFT = IconLoader.getIcon("/file-icons/file_type_swift.png");
 	public static final Icon COFFEE = IconLoader.getIcon("/file-icons/file_type_coffescript.png");
 	public static final Icon JAVA = IconLoader.getIcon("/file-icons/file_type_java.png");
 	public static final Icon PHP = IconLoader.getIcon("/file-icons/file_type_php.png");
@@ -125,6 +126,9 @@ public class AfterglowIcons
 			case "otf":
 			case "ttc":
 				return FONT;
+
+			case "swift":
+				return SWIFT;
 		}
 
 		return null;
@@ -245,6 +249,9 @@ public class AfterglowIcons
 			case "toml file":
 			case "rust":
 				return RUST;
+
+			case "swift":
+				return SWIFT;
 
 			case "plain_text":
 			{
