@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.widerwille.afterglow</id>
     <name>Afterglow Theme</name>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <vendor email="justsid@widerwille.com" url="http://widerwille.com">Sidney Just</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    <ul><h3><b>1.0.6</b></h3>
+      <li>Added icon for Swift</li>
+      <li>Added icon for Rust (intellij-rust Plugin)</li>
+      <li>Fixed slow context (right-click) menus under Windows. If you are still experiencing slow downs, please <a href="https://github.com/JustSid/AfterglowIntelliJ/issues">file an issue</a></li>
+      <li>Fixed missing folder icon in the Windows File -> New menu</li>
+    </ul>
     <ul><h3><b>1.0.5</b></h3>
       <li>Fixed broken file icons in the File -> New menu (big thanks to <a href="https://github.com/gicmo">gicmo</a> for the pull request)</li>
       <li>The Afterglow settings are now stored in the IntelliJ app config folder (big thanks to <a href="https://github.com/gicmo">gicmo</a> for the pull request)</li>
