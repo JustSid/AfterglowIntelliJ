@@ -43,16 +43,12 @@ public class AfterglowIconCache implements ApplicationComponent
 		String lookup;
 		try
 		{
-			lookup = file.getExtension();
-			if(lookup == null)
-			{
-				FileType type = file.getFileType();
-				lookup = type.getName();
-			}
+			FileType type = file.getFileType();
+			lookup = type.getName() + "." + file.getExtension();
 		}
 		catch(Exception e)
 		{
-			lookup = null;
+			lookup = file.getExtension();
 		}
 
 		if(lookup == null)
