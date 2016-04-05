@@ -34,6 +34,7 @@ public class AfterglowIcons
 	public static final Icon COFFEE = IconLoader.getIcon("/file-icons/file_type_coffescript.png");
 	public static final Icon JAVA = IconLoader.getIcon("/file-icons/file_type_java.png");
 	public static final Icon PHP = IconLoader.getIcon("/file-icons/file_type_php.png");
+	public static final Icon VUE = IconLoader.getIcon("/file-icons/file_type_vue.png");
 	public static final Icon SHELL = IconLoader.getIcon("/file-icons/file_type_source.png");
 	public static final Icon MARKDOWN = IconLoader.getIcon("/file-icons/file_type_markdown.png");
 	public static final Icon GIT = IconLoader.getIcon("/file-icons/file_type_git.png");
@@ -123,6 +124,10 @@ public class AfterglowIcons
 				return RUBY;
 			case "js":
 				return JAVASCRIPT;
+
+			case "vue":
+				return VUE;
+
 			case "ttf":
 			case "otf":
 			case "ttc":
@@ -253,6 +258,10 @@ public class AfterglowIcons
 
 			case "swift":
 				return SWIFT;
+
+			case "vue":
+			case "vue.js file":
+				return VUE;
 
 			case "plain_text":
 			{

@@ -12,6 +12,7 @@
 
     <change-notes><![CDATA[
     <ul><h3><b>1.0.7</b></h3>
+      <li>Added icon for Vue (supporting vue-for-idea and vue.js plugins)</li>
       <li>Fixed files losing their extension (for example the CMake icon in CLion would become the text icon after some time)</li>
       <li>Fixed icons like PyCharm's Python icon not showing their Afterglow goodness</li>
     </ul>
