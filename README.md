@@ -11,11 +11,20 @@ This theme looks best with the [Afterglow Color Scheme](https://github.com/bones
 # Screenshot
 
 Pictures, thousand words etc. Note that Afterglow IntelliJ comes with the original themes found in the Sublime Text plugin,
-but the screenshot only shows four. The themes are: Default (White), Blue, Magenta, Orange and Green and the theme can
+but the screenshot only shows three. The themes are: Default (White), Blue, Magenta, Orange and Green, the theme can
 be switched via the IntelliJ settings dialogue.
 
 ![Screenshot](./Screenshot.png)
 
+# Acknowledgments
+
+![YourKit logo](https://www.yourkit.com/images/yklogo.png)
+
+YourKit supports open source projects with its full-featured Java Profiler.
+YourKit, LLC is the creator of [YourKit Java Profiler](https://www.yourkit.com/java/profiler/index.jsp) and [YourKit .NET Profiler](https://www.yourkit.com/.net/profiler/index.jsp) innovative and intelligent tools for profiling Java and .NET applications.
+
+YourKit has offered an open source license for Afterglow to improve its performance (so that issues like [this](https://github.com/JustSid/AfterglowIntelliJ/issues/5) don't happen again).
+
 # License
 
-The code is available under the MIT license, the icons are copyright by [Yabata Design](https://github.com/YabataDesign)
+The project is available under the MIT license, the original Afterglow icons are copyright by [Yabata Design](https://github.com/YabataDesign).
