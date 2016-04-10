@@ -46,9 +46,16 @@ public class AfterglowIconCache implements ApplicationComponent
 			FileType type = file.getFileType();
 			lookup = type.getName() + "." + file.getExtension();
 		}
-		catch(Exception e)
+		catch(Exception e1)
 		{
-			lookup = file.getExtension();
+			try
+			{
+				lookup = file.getExtension();
+			}
+			catch(Exception e2)
+			{
+				lookup = null;
+			}
 		}
 
 		if(lookup == null)
