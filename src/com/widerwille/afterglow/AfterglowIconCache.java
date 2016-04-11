@@ -35,28 +35,50 @@ public class AfterglowIconCache implements ApplicationComponent
 	}
 
 
+	@Nullable
+	private String getLookup(VirtualFile file, int flags)
+	{
+		String lookup;
+
+		try
+		{
+			FileType type = file.getFileType();
+			String typeName = type.getName();
+
+			// Special handling for files that share the same type as others, but have a different icon
+			if(typeName.equalsIgnoreCase("javascript") || typeName.equalsIgnoreCase("ecmascript 6"))
+			{
+				if(file.getName().equalsIgnoreCase("gruntfile.js"))
+					return "gruntfile.js";
+				if(file.getName().equalsIgnoreCase("gulpfile.js"))
+					return "gulpfile.js";
+			}
+			else if(typeName.equalsIgnoreCase("json"))
+			{
+				if(file.getName().equalsIgnoreCase("package.json"))
+					return "package.json";
+				if(file.getName().equalsIgnoreCase("bower.json"))
+					return "bower.json";
+			}
+
+			lookup = typeName + "." + file.getExtension();
+		}
+		catch(Exception e)
+		{
+			lookup = file.getName();
+		}
+
+		return lookup;
+	}
 
 	@Nullable
 	public Icon getIcon(VirtualFile file, int flags)
 	{
+		if(file.isDirectory())
+			return AfterglowIcons.DIRECTORY;
+
 		// Generate the lookup into the cache
-		String lookup;
-		try
-		{
-			FileType type = file.getFileType();
-			lookup = type.getName() + "." + file.getExtension();
-		}
-		catch(Exception e1)
-		{
-			try
-			{
-				lookup = file.getExtension();
-			}
-			catch(Exception e2)
-			{
-				lookup = null;
-			}
-		}
+		String lookup = getLookup(file, flags);
 
 		if(lookup == null)
 			return AfterglowIcons.getIcon(file);
