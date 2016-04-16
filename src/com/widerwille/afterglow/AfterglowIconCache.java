@@ -65,7 +65,7 @@ public class AfterglowIconCache implements ApplicationComponent
 		}
 		catch(Exception e)
 		{
-			lookup = file.getName();
+			lookup = file.getPath();
 		}
 
 		return lookup;
