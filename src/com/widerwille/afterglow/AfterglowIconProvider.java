@@ -28,6 +28,6 @@ public class AfterglowIconProvider extends IconProvider implements DumbAware
 			return cache.getIcon(vFile, flags);
 		}
 
-		return AfterglowIcons.DIRECTORY;
+		return null;
 	}
 }
