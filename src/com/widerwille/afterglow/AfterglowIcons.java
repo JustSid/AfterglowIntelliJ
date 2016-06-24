@@ -30,6 +30,8 @@ public class AfterglowIcons
 	public static final Icon RUBY = IconLoader.getIcon("/file-icons/file_type_ruby.png");
 	public static final Icon PYTHON = IconLoader.getIcon("/file-icons/file_type_python.png");
 	public static final Icon JAVASCRIPT = IconLoader.getIcon("/file-icons/file_type_js.png");
+	public static final Icon TYPESCRIPT = IconLoader.getIcon("/file-icons/file_type_typescript.png");
+	public static final Icon REACT = IconLoader.getIcon("/file-icons/file_type_react.png");
 	public static final Icon SWIFT = IconLoader.getIcon("/file-icons/file_type_swift.png");
 	public static final Icon COFFEE = IconLoader.getIcon("/file-icons/file_type_coffescript.png");
 	public static final Icon JAVA = IconLoader.getIcon("/file-icons/file_type_java.png");
@@ -136,6 +138,10 @@ public class AfterglowIcons
 
 			case "swift":
 				return SWIFT;
+
+			case "tsx":
+			case "jsx":
+				return REACT;
 		}
 
 		return null;
@@ -215,6 +221,10 @@ public class AfterglowIcons
 					return GULP;
 
 				return JAVASCRIPT;
+
+			case "typescript":
+				return TYPESCRIPT;
+
 			case "coffeescript":
 			case "literal coffeescript":
 				return COFFEE;
@@ -277,11 +287,11 @@ public class AfterglowIcons
 			}
 
 			case "unknown":
+			default:
 				Icon icon = getIconForExtension(extension);
 				if(icon != null)
 					return icon;
 
-			default:
 				return type.isBinary() ? BINARY : ANY;
 		}
 	}
