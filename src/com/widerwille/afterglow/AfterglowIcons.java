@@ -41,6 +41,7 @@ public class AfterglowIcons
 	public static final Icon FONT = IconLoader.getIcon("/file-icons/file_type_font.png");
 	public static final Icon HTML = IconLoader.getIcon("/file-icons/file_type_html.png");
 	public static final Icon CSS = IconLoader.getIcon("/file-icons/file_type_css.png");
+	public static final Icon SCSS = IconLoader.getIcon("/file-icons/file_type_scss.png");
 	public static final Icon JADE = IconLoader.getIcon("/file-icons/file_type_jade.png");
 	public static final Icon XML = IconLoader.getIcon("/file-icons/file_type_markup.png");
 	public static final Icon JSON = IconLoader.getIcon("/file-icons/file_type_settings.png");
@@ -197,6 +198,9 @@ public class AfterglowIcons
 				return HTML;
 			case "css":
 				return CSS;
+			case "scss":
+			case "sass":
+				return SCSS;
 			case "yaml":
 				return YAML;
 			case "jade":
