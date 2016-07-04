@@ -5,6 +5,7 @@ import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.IconLoader;
+import com.intellij.ui.Gray;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -29,11 +30,18 @@ public class AfterglowComponent implements ApplicationComponent
 
 	public void initComponent()
 	{
-		AfterglowIcons.initialize();
+		AfterglowThemeManager.initialize();
 
-		Color selectionColor = new Color(54, 54, 54);
-		Color backgroundColor = new Color(32, 32, 32);
-		Color textColor = new Color(160, 160, 160);
+		Color selectionColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Selection);
+		Color backgroundColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Background);
+		Color textColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Text);
+
+		if(selectionColor == null)
+			selectionColor = Gray._54;
+		if(backgroundColor == null)
+			backgroundColor = Gray._32;
+		if(textColor == null)
+			textColor = Gray._160;
 
 		// This is a very evil hack
 		// Basically the UIUtil class tries to figure out which colour to use for the selected
@@ -85,7 +93,7 @@ public class AfterglowComponent implements ApplicationComponent
 
 	public void disposeComponent()
 	{
-		AfterglowIcons.cleanUp();
+		AfterglowThemeManager.cleanUp();
 	}
 
 	@NotNull
@@ -119,7 +127,7 @@ public class AfterglowComponent implements ApplicationComponent
 				break;
 		}
 
-		AfterglowIcons.applyDirectoryTint(directoryColor);
+		AfterglowThemeManager.applyDirectoryTint(directoryColor);
 		Application app = ApplicationManager.getApplication();
 
 		app.getComponent(AfterglowIconPack.class).fixIcons();

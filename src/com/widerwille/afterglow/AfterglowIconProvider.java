@@ -22,7 +22,7 @@ public class AfterglowIconProvider extends IconProvider implements DumbAware
 		{
 			VirtualFile vFile = containingFile.getVirtualFile();
 			if(vFile == null)
-				return AfterglowIcons.DIRECTORY;
+				return AfterglowThemeManager.DIRECTORY;
 
 			AfterglowIconCache cache = ApplicationManager.getApplication().getComponent(AfterglowIconCache.class);
 			return cache.getIcon(vFile, flags);

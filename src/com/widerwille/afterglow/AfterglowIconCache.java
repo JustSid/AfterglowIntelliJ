@@ -75,13 +75,13 @@ public class AfterglowIconCache implements ApplicationComponent
 	public Icon getIcon(VirtualFile file, int flags)
 	{
 		if(file.isDirectory())
-			return AfterglowIcons.DIRECTORY;
+			return AfterglowThemeManager.DIRECTORY;
 
 		// Generate the lookup into the cache
 		String lookup = getLookup(file, flags);
 
 		if(lookup == null)
-			return AfterglowIcons.getIcon(file);
+			return AfterglowThemeManager.getIcon(file);
 
 
 		// Retrieve the actual icon
@@ -89,7 +89,7 @@ public class AfterglowIconCache implements ApplicationComponent
 
 		if(result == null)
 		{
-			result = AfterglowIcons.getIcon(file);
+			result = AfterglowThemeManager.getIcon(file);
 
 			if(result != null)
 				fileCache.put(lookup, result);

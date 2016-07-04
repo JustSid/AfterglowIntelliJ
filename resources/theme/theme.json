@@ -2,7 +2,12 @@
 	"options":
 	{
 		"name": "Afterglow",
-		"author": "Sidney Just"
+		"author": "Sidney Just",
+		"colors": {
+			"selection": [ 54, 54, 54 ],
+			"background": [ 32, 32, 32 ],
+			"text": [ 160, 160, 160 ]
+		}
 	},
 	"icons": [
 		{ "name": "CFILE", "icon": "/file-icons/file_type_c.png" },

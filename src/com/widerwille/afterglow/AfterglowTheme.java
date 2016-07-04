@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +24,7 @@ public class AfterglowTheme
 
 	private String name;
 	private String author;
+	private JsonObject options;
 	private ArrayList<AfterglowOverride> overrides = new ArrayList<>();
 
 	private AfterglowTheme(@NotNull URL fileURL) throws Exception
@@ -84,13 +86,30 @@ public class AfterglowTheme
 		return best.getIcon();
 	}
 
+	public Color getColor(@NotNull String name)
+	{
+		JsonObject colors = options.getAsJsonObject("colors");
+		if(colors == null)
+			return null;
+
+		JsonArray values = colors.getAsJsonArray(name);
+		if(values == null || values.size() != 3)
+			return null;
+
+		int r = values.get(0).getAsInt();
+		int g = values.get(1).getAsInt();
+		int b = values.get(2).getAsInt();
+
+		return new Color(r, g, b);
+	}
+
 
 	private void ParseTheme(@NotNull String content)
 	{
 		JsonElement root = new JsonParser().parse(content);
 		JsonObject rootObject = root.getAsJsonObject();
 
-		JsonObject options = rootObject.getAsJsonObject("options");
+		options = rootObject.getAsJsonObject("options");
 		JsonArray icons = rootObject.getAsJsonArray("icons");
 		JsonArray overrides = rootObject.getAsJsonArray("overrides");
 

@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class AfterglowIcons
+public class AfterglowThemeManager
 {
-	private static final Logger LOG = Logger.getInstance(AfterglowIcons.class);
+	private static final Logger LOG = Logger.getInstance(AfterglowThemeManager.class);
 
 	public static final Icon DIRECTORY_ORIGINAL = IconLoader.getIcon("/icons/folder.png");
 	public static Icon DIRECTORY = DIRECTORY_ORIGINAL;
@@ -109,5 +109,39 @@ public class AfterglowIcons
 			default:
 				return type.isBinary() ? BINARY : ANY;
 		}
+	}
+
+	public enum ColorType
+	{
+		Selection,
+		Background,
+		Text
+	}
+
+	@Nullable
+	public static Color getColor(ColorType type)
+	{
+		String name = null;
+		switch(type)
+		{
+			case Selection:
+				name = "selection";
+				break;
+			case Background:
+				name = "background";
+				break;
+			case Text:
+				name = "text";
+				break;
+		}
+
+		for(AfterglowTheme theme : Lists.reverse(themes))
+		{
+			Color color = theme.getColor(name);
+			if(color != null)
+				return color;
+		}
+
+		return null;
 	}
 }

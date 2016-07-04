@@ -40,14 +40,14 @@ public class AfterglowIconPack implements ApplicationComponent
 
 	public void fixIcons()
 	{
-		replacements.put("/modules/sourceRoot.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/modules/sourceFolder.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/modules/moduleGroup.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/nodes/folder.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/nodes/newFolder.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/nodes/TreeOpen.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/nodes/TreeClosed.png", AfterglowIcons.DIRECTORY_FILE);
-		replacements.put("/nodes/ppFile.png", AfterglowIcons.DIRECTORY_FILE);
+		replacements.put("/modules/sourceRoot.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/modules/sourceFolder.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/modules/moduleGroup.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/nodes/folder.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/nodes/newFolder.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/nodes/TreeOpen.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/nodes/TreeClosed.png", AfterglowThemeManager.DIRECTORY_FILE);
+		replacements.put("/nodes/ppFile.png", AfterglowThemeManager.DIRECTORY_FILE);
 
 		if(SystemUtils.IS_OS_WINDOWS)
 		{
