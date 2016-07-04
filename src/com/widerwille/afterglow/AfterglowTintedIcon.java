@@ -1,6 +1,5 @@
 package com.widerwille.afterglow;
 
-import com.intellij.util.RetinaImage;
 import com.intellij.util.ui.UIUtil;
 
 import javax.swing.*;

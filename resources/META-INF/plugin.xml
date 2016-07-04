@@ -56,7 +56,7 @@
 
     <application-components>
         <component>
-            <implementation-class>com.widerwille.afterglow.AfterglowTheme</implementation-class>
+            <implementation-class>com.widerwille.afterglow.AfterglowComponent</implementation-class>
         </component>
         <component>
             <implementation-class>com.widerwille.afterglow.AfterglowIconPack</implementation-class>

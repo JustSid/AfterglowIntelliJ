@@ -1,6 +1,5 @@
 package com.widerwille.afterglow;
 
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.ComboBox;
@@ -23,18 +22,18 @@ public class AfterglowConfigurable implements Configurable
 		if(component == null)
 		{
 			String[] options = {
-					AfterglowTheme.getStringForTheme(AfterglowTheme.Theme.Default),
-					AfterglowTheme.getStringForTheme(AfterglowTheme.Theme.Blue),
-					AfterglowTheme.getStringForTheme(AfterglowTheme.Theme.Magenta),
-					AfterglowTheme.getStringForTheme(AfterglowTheme.Theme.Orange),
-					AfterglowTheme.getStringForTheme(AfterglowTheme.Theme.Green) };
+					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Default),
+					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Blue),
+					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Magenta),
+					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Orange),
+					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Green) };
 
 			final JPanel comboPanel = new JPanel();
 
 			JLabel label = new JLabel("Theme:");
 
 			selectionBox= new ComboBox(options);
-			selectionBox.setSelectedItem(AfterglowTheme.getStringForTheme(AfterglowTheme.getActiveTheme()));
+			selectionBox.setSelectedItem(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme()));
 
 			comboPanel.add(label);
 			comboPanel.add(selectionBox);
@@ -77,19 +76,19 @@ public class AfterglowConfigurable implements Configurable
 	@Override
 	public boolean isModified()
 	{
-		return !(selectionBox.getSelectedItem().equals(AfterglowTheme.getStringForTheme(AfterglowTheme.getActiveTheme())));
+		return !(selectionBox.getSelectedItem().equals(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme())));
 	}
 
 	@Override
 	public void reset()
 	{
-		selectionBox.setSelectedItem(AfterglowTheme.getStringForTheme(AfterglowTheme.getActiveTheme()));
+		selectionBox.setSelectedItem(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme()));
 	}
 
 	@Override
 	public void apply() throws ConfigurationException
 	{
 		String theme = (String)selectionBox.getSelectedItem();
-		AfterglowTheme.applyTheme(AfterglowTheme.getThemeForString(theme));
+		AfterglowComponent.applyTheme(AfterglowComponent.getThemeForString(theme));
 	}
 }

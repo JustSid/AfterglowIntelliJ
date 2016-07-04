@@ -1,197 +1,234 @@
 package com.widerwille.afterglow;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
+import com.google.gson.*;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.IconLoader;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-public class AfterglowTheme implements ApplicationComponent
+public class AfterglowTheme
 {
-	public enum Theme
+	private static final Logger LOG = Logger.getInstance(AfterglowTheme.class);
+
+	private String name;
+	private String author;
+	private ArrayList<AfterglowOverride> overrides = new ArrayList<>();
+
+	private AfterglowTheme(@NotNull URL fileURL) throws Exception
 	{
-		Default,
-		Blue,
-		Magenta,
-		Orange,
-		Green
-	}
+		InputStream stream = fileURL.openStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-	private static final Icon ExpandedIcon = IconLoader.getIcon("/icons/folder-open.png");
-	private static final Icon CollapsedIcon = IconLoader.getIcon("/icons/folder-closed.png");
-	private static Theme activeTheme;
+		String line;
+		StringBuilder content = new StringBuilder();
 
-	public void initComponent()
-	{
-		Color selectionColor = new Color(54, 54, 54);
-		Color backgroundColor = new Color(32, 32, 32);
-		Color textColor = new Color(160, 160, 160);
-
-		// This is a very evil hack
-		// Basically the UIUtil class tries to figure out which colour to use for the selected
-		// cell, and when the cell doesn't have the focus, it checks wether "Tree.textBackground"
-		// is dark or not. If it's dark, it will return a hard coded color, but, if it's light
-		// it will return a static field color... Which we can force replace. Yay for hacks
-
-		/*UIManager.put("Tree.textBackground", new Color(255, 255, 255, 0));
+		while((line = reader.readLine()) != null)
+			content.append(line);
 
 		try
 		{
-			setFinalStatic(UIUtil.class, "UNFOCUSED_SELECTION_COLOR", selectionColor);
+			ParseTheme(content.toString());
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-		}*/
+			reader.close();
 
-		// The above hack is GREAT! Except it breaks other trees, and I can't figure out how to fix them
-		// so screw it... I'll go back to thee and hack you even more!
-
-
-		// General colours
-		UIManager.put("Tree.background", backgroundColor);
-		UIManager.put("Tree.textBackground", backgroundColor);
-		UIManager.put("Tree.selectionBackground", selectionColor);
-
-		UIManager.put("Tree.foreground", textColor);
-
-		// Icons
-		try
-		{
-			UIManager.put("Tree.collapsedIcon", CollapsedIcon);
-			UIManager.put("Tree.expandedIcon", ExpandedIcon);
-
-			setFinalStatic(AllIcons.Mac.class, "Tree_white_right_arrow", CollapsedIcon);
-			setFinalStatic(AllIcons.Mac.class, "Tree_white_down_arrow", ExpandedIcon);
+			LOG.error("Couldn't parse theme, error: " + e.getLocalizedMessage());
+			throw e;
 		}
-		catch(Exception e)
+		finally
 		{
-			e.printStackTrace();
-		}
-
-
-		AfterglowSettings settings = AfterglowSettings.getInstance();
-		String theme = settings.theme;
-		applyTheme(getThemeForString(theme));
-	}
-
-	public void disposeComponent()
-	{
-		AfterglowIcons.cleanUp();
-	}
-
-	@NotNull
-	public String getComponentName()
-	{
-		return "AfterglowTheme";
-	}
-
-	public static void applyTheme(Theme theme)
-	{
-		Color directoryColor;
-
-		switch(theme)
-		{
-			case Blue:
-				directoryColor = new Color(108, 153, 187);
-				break;
-			case Magenta:
-				directoryColor = new Color(128, 67, 93);
-				break;
-			case Orange:
-				directoryColor = new Color(229, 181, 103);
-				break;
-			case Green:
-				directoryColor = new Color(124, 144, 68);
-				break;
-
-			case Default:
-			default:
-				directoryColor = Color.WHITE;
-				break;
-		}
-
-		AfterglowIcons.applyDirectoryTint(directoryColor);
-		Application app = ApplicationManager.getApplication();
-
-		app.getComponent(AfterglowIconPack.class).fixIcons();
-		activeTheme = theme;
-
-		AfterglowSettings settings = AfterglowSettings.getInstance();
-		settings.theme = getStringForTheme(activeTheme);
-	}
-
-	public static Theme getActiveTheme()
-	{
-		return activeTheme;
-	}
-
-
-
-	public static String getStringForTheme(Theme theme)
-	{
-		switch(theme)
-		{
-			case Blue:
-				return "Blue";
-			case Magenta:
-				return "Magenta";
-			case Orange:
-				return "Orange";
-			case Green:
-				return "Green";
-
-			case Default:
-			default:
-				return "Default";
+			reader.close();
 		}
 	}
-	public static Theme getThemeForString(String string)
-	{
-		if(string.equals("Blue"))
-			return Theme.Blue;
-		else if(string.equals("Magenta"))
-			return Theme.Magenta;
-		else if(string.equals("Orange"))
-			return Theme.Orange;
-		else if(string.equals("Green"))
-			return Theme.Green;
 
-		return Theme.Default;
+	static public AfterglowTheme CreateThemeWithURL(@NotNull URL fileURL) throws Exception
+	{
+		return new AfterglowTheme(fileURL);
+	}
+
+	@Nullable
+	public Icon getIcon(VirtualFile virtualFile)
+	{
+		ArrayList<AfterglowOverride> matchList = new ArrayList<>();
+		AfterglowFile file = new AfterglowFile(virtualFile);
+
+		for(AfterglowOverride override : overrides)
+		{
+			if(override.MatchesFile(file))
+				matchList.add(override);
+		}
+
+		if(matchList.size() == 0)
+			return null;
+
+		AfterglowOverride best = matchList.get(0);
+		for(int i = 1; i < matchList.size(); i++)
+		{
+			AfterglowOverride other = matchList.get(i);
+			if(other.IsBetterMatch(best, file))
+				best = other;
+		}
+
+		return best.getIcon();
 	}
 
 
-
-	private static void setFinalStatic(Class cls, String fieldName, Object newValue) throws Exception
+	private void ParseTheme(@NotNull String content)
 	{
-		Field[] fields = cls.getDeclaredFields();
+		JsonElement root = new JsonParser().parse(content);
+		JsonObject rootObject = root.getAsJsonObject();
 
-		for(int i = 0; i < fields.length; i ++)
+		JsonObject options = rootObject.getAsJsonObject("options");
+		JsonArray icons = rootObject.getAsJsonArray("icons");
+		JsonArray overrides = rootObject.getAsJsonArray("overrides");
+
+		if(options == null || icons == null || overrides == null)
+			throw new InternalError("options, icons and overrides mustn't be null");
+
+		// Load all icons
+		HashMap<String, Icon> iconTable = new HashMap<>();
+
+		for(int i = 0; i < icons.size(); i++)
 		{
-			Field field = fields[i];
+			JsonObject object = icons.get(i).getAsJsonObject();
 
-			if(field.getName().equals(fieldName))
+			String name = object.getAsJsonPrimitive("name").getAsString();
+			String file = object.getAsJsonPrimitive("icon").getAsString();
+
+			try
 			{
-				setFinalStatic(field, newValue);
-				return;
+				Icon icon = IconLoader.getIcon(file);
+				iconTable.put(name, icon);
+			}
+			catch(Exception e)
+			{
+				LOG.error("Couldn't load icon " + file);
 			}
 		}
+
+		// Load the overrides
+		for(int i = 0; i < overrides.size(); i++)
+		{
+			JsonObject object = overrides.get(i).getAsJsonObject();
+
+			String iconName = object.getAsJsonPrimitive("icon").getAsString();
+			Icon icon = iconTable.get(iconName);
+
+			if(icon != null)
+			{
+				AfterglowOverride override = new AfterglowOverride(object, icon);
+				this.overrides.add(override);
+			}
+			else
+				LOG.error("Couldn't resolve icon " + iconName);
+		}
 	}
 
-	private static void setFinalStatic(Field field, Object newValue) throws Exception
+	private class AfterglowFile
 	{
-		field.setAccessible(true);
+		private String extension;
+		private String name;
+		private String type;
 
-		Field modifiersField = Field.class.getDeclaredField("modifiers");
-		modifiersField.setAccessible(true);
-		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+		private AfterglowFile(VirtualFile file)
+		{
+			type = file.getFileType().getName().toLowerCase();
+			name = file.getName().toLowerCase();
+			extension = file.getExtension();
 
-		field.set(null, newValue);
+			if(extension != null)
+				extension = extension.toLowerCase();
+			else
+				extension = "";
+		}
+
+		String getExtension()
+		{
+			return extension;
+		}
+		String getName()
+		{
+			return name;
+		}
+		String getType()
+		{
+			return type;
+		}
+	}
+
+	private class AfterglowOverride
+	{
+		private Icon icon = null;
+		private String name = null;
+		private Set<String> extensions = new HashSet<>();
+		private Set<String> types = new HashSet<>();
+
+		public AfterglowOverride(@NotNull JsonObject override, @NotNull Icon icon)
+		{
+			this.icon = icon;
+
+			JsonElement nameElement = override.getAsJsonPrimitive("name");
+			if(nameElement != null)
+				name = nameElement.getAsString().toLowerCase();
+
+			JsonArray extensions = override.getAsJsonArray("extensions");
+			JsonArray types = override.getAsJsonArray("types");
+
+			if(extensions != null)
+			{
+				for(int i = 0; i < extensions.size(); i++)
+					this.extensions.add(extensions.get(i).getAsString().toLowerCase());
+			}
+
+			if(types != null)
+			{
+				for(int i = 0; i < types.size(); i++)
+					this.types.add(types.get(i).getAsString().toLowerCase());
+			}
+		}
+
+		@NotNull
+		Icon getIcon()
+		{
+			return icon;
+		}
+
+		boolean MatchesFile(@NotNull AfterglowFile file)
+		{
+			if(name != null && name.equals(file.getName()))
+				return true;
+			if(types.contains(file.getType()))
+				return true;
+			if(extensions.contains(file.getExtension()))
+				return true;
+
+			return false;
+		}
+		boolean IsBetterMatch(@NotNull AfterglowOverride other, @NotNull AfterglowFile file)
+		{
+			if(name != null && name.equals(file.getName()))
+				return true;
+			if(other.name != null && other.name.equals(file.getName()))
+				return false;
+
+			if(types.contains(file.getType()))
+				return true;
+			if(other.types.contains(file.getType()))
+				return false;
+
+			return true; // Only extensions are left now, so both are an equally good match
+		}
 	}
 }

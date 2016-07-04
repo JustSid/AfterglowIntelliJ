@@ -1,0 +1,219 @@
+{
+	"options":
+	{
+		"name": "Afterglow",
+		"author": "Sidney Just"
+	},
+	"icons": [
+		{ "name": "CFILE", "icon": "/file-icons/file_type_c.png" },
+		{ "name": "CPPFILE", "icon": "/file-icons/file_type_c++.png" },
+		{ "name": "CSHARP", "icon": "/file-icons/file_type_c#.png" },
+		{ "name": "MFILE", "icon": "/file-icons/file_type_objectivec.png" },
+		{ "name": "HEADER", "icon": "/file-icons/file_type_header.png" },
+		{ "name": "RUST", "icon": "/file-icons/file_type_rust.png" },
+		{ "name": "HASKELL", "icon": "/file-icons/file_type_haskell.png" },
+		{ "name": "RUBY", "icon": "/file-icons/file_type_ruby.png" },
+		{ "name": "PYTHON", "icon": "/file-icons/file_type_python.png" },
+		{ "name": "JAVASCRIPT", "icon": "/file-icons/file_type_js.png" },
+		{ "name": "TYPESCRIPT", "icon": "/file-icons/file_type_typescript.png" },
+		{ "name": "REACT", "icon": "/file-icons/file_type_react.png" },
+		{ "name": "SWIFT", "icon": "/file-icons/file_type_swift.png" },
+		{ "name": "COFFEE", "icon": "/file-icons/file_type_coffescript.png" },
+		{ "name": "JAVA", "icon": "/file-icons/file_type_java.png" },
+		{ "name": "PHP", "icon": "/file-icons/file_type_php.png" },
+		{ "name": "VUE", "icon": "/file-icons/file_type_vue.png" },
+		{ "name": "SHELL", "icon": "/file-icons/file_type_source.png" },
+		{ "name": "MARKDOWN", "icon": "/file-icons/file_type_markdown.png" },
+		{ "name": "GIT", "icon": "/file-icons/file_type_git.png" },
+		{ "name": "FONT", "icon": "/file-icons/file_type_font.png" },
+		{ "name": "HTML", "icon": "/file-icons/file_type_html.png" },
+		{ "name": "CSS", "icon": "/file-icons/file_type_css.png" },
+		{ "name": "SCSS", "icon": "/file-icons/file_type_scss.png" },
+		{ "name": "JADE", "icon": "/file-icons/file_type_jade.png" },
+		{ "name": "XML", "icon": "/file-icons/file_type_markup.png" },
+		{ "name": "JSON", "icon": "/file-icons/file_type_settings.png" },
+		{ "name": "YAML", "icon": "/file-icons/file_type_yaml.png" },
+		{ "name": "GRUNT", "icon": "/file-icons/file_type_gruntfile.png" },
+		{ "name": "GULP", "icon": "/file-icons/file_type_gulpfile.png" },
+		{ "name": "BOWER", "icon": "/file-icons/file_type_bower.png" },
+		{ "name": "NPM", "icon": "/file-icons/file_type_npm.png" },
+		{ "name": "TEXT", "icon": "/file-icons/file_type_text.png" },
+		{ "name": "IMAGE", "icon": "/file-icons/file_type_image.png" },
+		{ "name": "SQL", "icon": "/file-icons/file_type_sql.png" },
+		{ "name": "SCALA", "icon": "/file-icons/file_type_scala.png" }
+	],
+	"overrides": [
+		{
+			"types": [ "objectivec" ],
+			"extensions": [ "h", "hpp", "pch" ],
+			"icon": "HEADER"
+		},
+		{
+			"types": [ "objectivec" ],
+			"extensions": [ "cpp" ],
+			"icon": "CPPFILE"
+		},
+		{
+			"types": [ "objectivec" ],
+			"extensions": [ "c" ],
+			"icon": "CFILE"
+		},
+		{
+			"types": [ "objectivec" ],
+			"extensions": [ "m", "mm" ],
+			"icon": "MFILE"
+		},
+		{
+			"types": [ "c#" ],
+			"icon": "CSHARP"
+		},
+		{
+			"types": [ "c++" ],
+			"icon": "CPPFILE"
+		},
+		{
+			"extensions": [ "json" ],
+			"types": [ "json" ],
+			"icon": "JSON"
+		},
+		{
+			"name": "package.json",
+			"types": [ "npm file", "npmignore" ],
+			"icon": "NPM"
+		},
+		{
+			"name": "bower.json",
+			"icon": "BOWER"
+		},
+		{
+			"extensions": [ "xml", "plist" ],
+			"types": [ "xml", "plist" ],
+			"icon": "XML"
+		},
+		{
+			"extensions": [ "html", "xhtml" ],
+			"types": [ "html", "xhtml" ],
+			"icon": "HTML"
+		},
+		{
+			"extensions": [ "css" ],
+			"types": [ "css" ],
+			"icon": "CSS"
+		},
+		{
+			"extensions": [ "scss", "sass" ],
+			"types": [ "scss", "sass" ],
+			"icon": "SCSS"
+		},
+		{
+			"extensions": [ "yaml" ],
+			"types": [ "yaml" ],
+			"icon": "YAML"
+		},
+		{
+			"extensions": [ "jade" ],
+			"types": [ "jade" ],
+			"icon": "JADE"
+		},
+		{
+			"extensions": [ "js" ],
+			"types": [ "javascript", "ecmascript 6" ],
+			"icon": "JAVASCRIPT"
+		},
+		{
+			"name": "gruntfile.js",
+			"icon": "GRUNT"
+		},
+		{
+			"name": "gulpfile.js",
+			"icon": "GULP"
+		},
+		{
+			"extensions": [ "ts" ],
+			"types": [ "typescript" ],
+			"icon": "TYPESCRIPT"
+		},
+		{
+			"extensions": [ "coffee", "litcoffee" ],
+			"types": [ "coffescript", "literal coffeescript" ],
+			"icon": "COFFEE"
+		},
+		{
+			"extensions": [ "rb", "podfile" ],
+			"types": [ "ruby", "podfile" ],
+			"icon": "RUBY"
+		},
+		{
+			"extensions": [ "py" ],
+			"types": [ "python" ],
+			"icon": "PYTHON"
+		},
+		{
+			"extensions": [ "php" ],
+			"types": [ "php" ],
+			"icon": "PHP"
+		},
+		{
+			"extensions": [ "hs", "lhs" ],
+			"types": [ "haskell" ],
+			"icon": "HASKELL"
+		},
+		{
+			"extensions": [ "java" ],
+			"types": [ "java" ],
+			"icon": "JAVA"
+		},
+		{
+			"types": [ "images" ],
+			"icon": "IMAGE"
+		},
+		{
+			"extensions": [ "sql" ],
+			"types": [ "sql" ],
+			"icon": "SQL"
+		},
+		{
+			"extensions": [ "strings" ],
+			"types": [ "strings" ],
+			"icon": "TEXT"
+		},
+		{
+			"extensions": [ "gitignore", "gitmodules" ],
+			"types": [ "git file" ],
+			"icon": "GIT"
+		},
+		{
+			"extensions": [ "md", "markdown" ],
+			"types": [ "markdown" ],
+			"icon": "MARKDOWN"
+		},
+		{
+			"extensions": [ "sh" ],
+			"types": [ "bash" ],
+			"icon": "SHELL"
+		},
+		{
+			"extensions": [ "rs", "toml" ],
+			"types": [ "toml file", "rust" ],
+			"icon": "RUST"
+		},
+		{
+			"extensions": [ "swift" ],
+			"types": [ "swift" ],
+			"icon": "SWIFT"
+		},
+		{
+			"extensions": [ "vue" ],
+			"types": [ "vue", "vue.js file" ],
+			"icon": "VUE"
+		},
+		{
+			"extensions": [ "ttf", "otf", "ttc" ],
+			"icon": "FONT"
+		},
+		{
+			"extensions": [ "tsx", "jsx" ],
+			"icon": "FONT"
+		}
+	]
+}
