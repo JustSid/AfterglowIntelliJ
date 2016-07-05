@@ -32,9 +32,9 @@ public class AfterglowComponent implements ApplicationComponent
 	{
 		AfterglowThemeManager.initialize();
 
-		Color selectionColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Selection);
-		Color backgroundColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Background);
-		Color textColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.Text);
+		Color selectionColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.SidebarSelection);
+		Color backgroundColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.SidebarBackground);
+		Color textColor = AfterglowThemeManager.getColor(AfterglowThemeManager.ColorType.SidebarText);
 
 		if(selectionColor == null)
 			selectionColor = Gray._54;

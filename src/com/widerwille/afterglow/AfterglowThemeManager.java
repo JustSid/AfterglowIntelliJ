@@ -113,9 +113,9 @@ public class AfterglowThemeManager
 
 	public enum ColorType
 	{
-		Selection,
-		Background,
-		Text
+		SidebarSelection,
+		SidebarBackground,
+		SidebarText
 	}
 
 	@Nullable
@@ -124,14 +124,14 @@ public class AfterglowThemeManager
 		String name = null;
 		switch(type)
 		{
-			case Selection:
-				name = "selection";
+			case SidebarSelection:
+				name = "sidebar.selection";
 				break;
-			case Background:
-				name = "background";
+			case SidebarBackground:
+				name = "sidebar.background";
 				break;
-			case Text:
-				name = "text";
+			case SidebarText:
+				name = "sidebar.text";
 				break;
 		}
 

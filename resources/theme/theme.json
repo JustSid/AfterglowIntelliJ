@@ -4,9 +4,9 @@
 		"name": "Afterglow",
 		"author": "Sidney Just",
 		"colors": {
-			"selection": [ 54, 54, 54 ],
-			"background": [ 32, 32, 32 ],
-			"text": [ 160, 160, 160 ]
+			"sidebar.selection": [ 54, 54, 54 ],
+			"sidebar.background": [ 32, 32, 32 ],
+			"sidebar.text": [ 160, 160, 160 ]
 		}
 	},
 	"icons": [
