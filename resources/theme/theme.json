@@ -51,6 +51,7 @@
 		{ "name": "CFILE", "icon": "/file-icons/file_type_c.png" },
 		{ "name": "CPPFILE", "icon": "/file-icons/file_type_c++.png" },
 		{ "name": "CSHARP", "icon": "/file-icons/file_type_c#.png" },
+		{ "name": "CMAKE", "icon": "/file-icons/file_type_cmake.png" },
 		{ "name": "MFILE", "icon": "/file-icons/file_type_objectivec.png" },
 		{ "name": "HEADER", "icon": "/file-icons/file_type_header.png" },
 		{ "name": "RUST", "icon": "/file-icons/file_type_rust.png" },
@@ -117,7 +118,8 @@
 		{
 			"extensions": [ "json" ],
 			"types": [ "json" ],
-			"icon": "JSON"
+			"icon": "JSON",
+			"overrides": [ "/fileTypes/json.png" ]
 		},
 		{
 			"name": "package.json",
@@ -264,6 +266,12 @@
 		{
 			"extensions": [ "tsx", "jsx" ],
 			"icon": "FONT"
+		},
+		{
+			"name": "CMakeLists.txt",
+			"types": [ "cmake" ],
+			"extensions": [ "cmake" ],
+			"icon": "CMAKE"
 		},
 		{
 			"icon": "ANY",

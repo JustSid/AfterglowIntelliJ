@@ -428,7 +428,7 @@ public class AfterglowTheme
 
 		boolean MatchesFile(@NotNull File file)
 		{
-			if(name != null && name.equals(file.getName()))
+			if(name != null && name.equalsIgnoreCase(file.getName()))
 				return true;
 			if(types.contains(file.getType()))
 				return true;
@@ -439,9 +439,10 @@ public class AfterglowTheme
 		}
 		boolean IsBetterMatch(@NotNull Override other, @NotNull File file)
 		{
-			if(name != null && name.equals(file.getName()))
+			if(name != null && name.equalsIgnoreCase(file.getName()))
 				return true;
-			if(other.name != null && other.name.equals(file.getName()))
+			if(other.name != null && other.name.equalsIgnoreCase(file.getName()))
+				return false;
 
 			if(extensions.contains(file.getExtension()))
 				return true;
