@@ -7,9 +7,47 @@
 			"sidebar.selection": [ 54, 54, 54 ],
 			"sidebar.background": [ 32, 32, 32 ],
 			"sidebar.text": [ 160, 160, 160 ]
-		}
+		},
+		"tints": [
+			{
+				"name": "White",
+				"identifier": "Default",
+				"color": [ 108, 153, 187 ]
+			},
+			{
+				"name": "Blue",
+				"identifier": "Blue",
+				"color": [ 108, 153, 187 ]
+			},
+			{
+				"name": "Magenta",
+				"identifier": "Magenta",
+				"color": [ 128,67, 93 ]
+			},
+			{
+				"name": "Orange",
+				"identifier": "Orange",
+				"color": [ 229, 181, 103 ]
+			},
+			{
+				"name": "Green",
+				"identifier": "Green",
+				"color": [ 124, 144, 68 ]
+			},
+			{
+				"name": "Yellow",
+				"identifier": "Yellow",
+				"color": [ 231, 183, 90 ]
+			}
+		]
 	},
 	"icons": [
+		{ "name": "ANY", "icon": "/file-icons/file_type_default.png" },
+		{ "name": "BINARY", "icon": "/file-icons/file_type_binary.png" },
+		{ "name": "TEXT", "icon": "/file-icons/file_type_text.png" },
+		{ "name": "FOLDER", "icon": "/icons/folder.png", "tint": true },
+		{ "name": "EXPANDED", "icon": "/icons/folder-open.png" },
+		{ "name": "COLLAPSED", "icon": "/icons/folder-closed.png" },
 		{ "name": "CFILE", "icon": "/file-icons/file_type_c.png" },
 		{ "name": "CPPFILE", "icon": "/file-icons/file_type_c++.png" },
 		{ "name": "CSHARP", "icon": "/file-icons/file_type_c#.png" },
@@ -98,12 +136,14 @@
 		{
 			"extensions": [ "html", "xhtml" ],
 			"types": [ "html", "xhtml" ],
-			"icon": "HTML"
+			"icon": "HTML",
+			"overrides": [ "/fileTypes/html.png" ]
 		},
 		{
 			"extensions": [ "css" ],
 			"types": [ "css" ],
-			"icon": "CSS"
+			"icon": "CSS",
+			"overrides": [ "/fileTypes/css.png" ]
 		},
 		{
 			"extensions": [ "scss", "sass" ],
@@ -123,7 +163,8 @@
 		{
 			"extensions": [ "js" ],
 			"types": [ "javascript", "ecmascript 6" ],
-			"icon": "JAVASCRIPT"
+			"icon": "JAVASCRIPT",
+			"overrides": [ "/fileTypes/javaScript.png" ]
 		},
 		{
 			"name": "gruntfile.js",
@@ -136,7 +177,8 @@
 		{
 			"extensions": [ "ts" ],
 			"types": [ "typescript" ],
-			"icon": "TYPESCRIPT"
+			"icon": "TYPESCRIPT",
+			"overrides": [ "/fileTypes/typeScript.png" ]
 		},
 		{
 			"extensions": [ "coffee", "litcoffee" ],
@@ -166,7 +208,8 @@
 		{
 			"extensions": [ "java" ],
 			"types": [ "java" ],
-			"icon": "JAVA"
+			"icon": "JAVA",
+			"overrides": [ "/fileTypes/javaClass.png" ]
 		},
 		{
 			"types": [ "images" ],
@@ -180,7 +223,8 @@
 		{
 			"extensions": [ "strings" ],
 			"types": [ "strings" ],
-			"icon": "TEXT"
+			"icon": "TEXT",
+			"overrides": [ "/fileTypes/text.png" ]
 		},
 		{
 			"extensions": [ "gitignore", "gitmodules" ],
@@ -195,7 +239,8 @@
 		{
 			"extensions": [ "sh" ],
 			"types": [ "bash" ],
-			"icon": "SHELL"
+			"icon": "SHELL",
+			"overrides": [ "/fileTypes/xslt.png" ]
 		},
 		{
 			"extensions": [ "rs", "toml" ],
@@ -219,6 +264,14 @@
 		{
 			"extensions": [ "tsx", "jsx" ],
 			"icon": "FONT"
+		},
+		{
+			"icon": "ANY",
+			"overrides": [ "/fileTypes/anyType.png" ]
+		},
+		{
+			"icon": "FOLDER",
+			"overrides": [ "/modules/sourceRoot.png", "/modules/sourceFolder.png", "/modules/moduleGroup.png", "/nodes/folder.png", "/nodes/newFolder.png", "/nodes/TreeOpen.png", "/nodes/TreeClosed.png", "/nodes/ppFile.png" ]
 		}
 	]
 }

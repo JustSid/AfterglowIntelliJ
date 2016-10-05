@@ -1,5 +1,6 @@
 package com.widerwille.afterglow;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.ComboBox;
@@ -9,11 +10,13 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class AfterglowConfigurable implements Configurable
 {
 	private JComponent component = null;
 	private ComboBox selectionBox;
+	private ArrayList<AfterglowTheme.Tint> tints = null;
 
 	@Nullable
 	@Override
@@ -21,19 +24,22 @@ public class AfterglowConfigurable implements Configurable
 	{
 		if(component == null)
 		{
-			String[] options = {
-					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Default),
-					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Blue),
-					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Magenta),
-					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Orange),
-					AfterglowComponent.getStringForTheme(AfterglowComponent.Theme.Green) };
+			AfterglowComponent afterglow = ApplicationManager.getApplication().getComponent(AfterglowComponent.class);
+
+			tints = AfterglowThemeManager.getTints();
+
+			ArrayList<String> options = new ArrayList<>();
+
+			for(AfterglowTheme.Tint tint : tints)
+				options.add(tint.getName());
+
 
 			final JPanel comboPanel = new JPanel();
 
 			JLabel label = new JLabel("Theme:");
 
-			selectionBox= new ComboBox(options);
-			selectionBox.setSelectedItem(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme()));
+			selectionBox= new ComboBox(options.toArray());
+			selectionBox.setSelectedItem(afterglow.getActiveTheme().getName());
 
 			comboPanel.add(label);
 			comboPanel.add(selectionBox);
@@ -76,19 +82,23 @@ public class AfterglowConfigurable implements Configurable
 	@Override
 	public boolean isModified()
 	{
-		return !(selectionBox.getSelectedItem().equals(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme())));
+		AfterglowComponent afterglow = ApplicationManager.getApplication().getComponent(AfterglowComponent.class);
+		return !(selectionBox.getSelectedItem().equals(afterglow.getActiveTheme().getName()));
 	}
 
 	@Override
 	public void reset()
 	{
-		selectionBox.setSelectedItem(AfterglowComponent.getStringForTheme(AfterglowComponent.getActiveTheme()));
+		AfterglowComponent afterglow = ApplicationManager.getApplication().getComponent(AfterglowComponent.class);
+		selectionBox.setSelectedItem(afterglow.getActiveTheme().getName());
 	}
 
 	@Override
 	public void apply() throws ConfigurationException
 	{
-		String theme = (String)selectionBox.getSelectedItem();
-		AfterglowComponent.applyTheme(AfterglowComponent.getThemeForString(theme));
+		AfterglowComponent afterglow = ApplicationManager.getApplication().getComponent(AfterglowComponent.class);
+
+		int index = selectionBox.getSelectedIndex();
+		afterglow.applyTheme(tints.get(index));
 	}
 }

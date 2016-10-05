@@ -22,10 +22,15 @@ public class AfterglowTheme
 {
 	private static final Logger LOG = Logger.getInstance(AfterglowTheme.class);
 
+	private URL url;
 	private String name;
 	private String author;
 	private JsonObject options;
-	private ArrayList<AfterglowOverride> overrides = new ArrayList<>();
+	private HashMap<String, Icon> iconTable = new HashMap<>();
+	private HashMap<String, Tint> tintTable = new HashMap<>();
+	private ArrayList<Tint> tintList = new ArrayList<>();
+	private ArrayList<Override> overrides = new ArrayList<>();
+	private boolean defaultTheme;
 
 	private AfterglowTheme(@NotNull URL fileURL) throws Exception
 	{
@@ -41,6 +46,9 @@ public class AfterglowTheme
 		try
 		{
 			ParseTheme(content.toString());
+
+			defaultTheme = (AfterglowTheme.class.getResource("/theme/theme.json") == fileURL);
+			url = fileURL;
 		}
 		catch(Exception e)
 		{
@@ -60,13 +68,54 @@ public class AfterglowTheme
 		return new AfterglowTheme(fileURL);
 	}
 
+	@NotNull
+	public String getName()
+	{
+		return name;
+	}
+	@NotNull
+	public String getAuthor()
+	{
+		return author;
+	}
+	@NotNull
+	public URL getUrl()
+	{
+		return url;
+	}
+
+	public boolean isDefaultTheme()
+	{
+		return defaultTheme;
+	}
+
+	@Nullable
+	public ArrayList<Override> getIconPackOverrides()
+	{
+		ArrayList<Override> result = new ArrayList<>();
+
+		for(Override override : overrides)
+		{
+			if(override.getOverrides() != null)
+				result.add(override);
+		}
+
+		return (result.size() > 0) ? result : null;
+	}
+
+	@Nullable
+	public Icon getIconForName(@NotNull String name)
+	{
+		return iconTable.get(name);
+	}
+
 	@Nullable
 	public Icon getIcon(VirtualFile virtualFile)
 	{
-		ArrayList<AfterglowOverride> matchList = new ArrayList<>();
-		AfterglowFile file = new AfterglowFile(virtualFile);
+		ArrayList<Override> matchList = new ArrayList<>();
+		File file = new File(virtualFile);
 
-		for(AfterglowOverride override : overrides)
+		for(Override override : overrides)
 		{
 			if(override.MatchesFile(file))
 				matchList.add(override);
@@ -75,10 +124,10 @@ public class AfterglowTheme
 		if(matchList.size() == 0)
 			return null;
 
-		AfterglowOverride best = matchList.get(0);
+		Override best = matchList.get(0);
 		for(int i = 1; i < matchList.size(); i++)
 		{
-			AfterglowOverride other = matchList.get(i);
+			Override other = matchList.get(i);
 			if(other.IsBetterMatch(best, file))
 				best = other;
 		}
@@ -103,6 +152,15 @@ public class AfterglowTheme
 		return new Color(r, g, b);
 	}
 
+	public Tint getTint(@NotNull String identifier)
+	{
+		return tintTable.get(identifier);
+	}
+	public ArrayList<Tint> getTints()
+	{
+		return tintList;
+	}
+
 
 	private void ParseTheme(@NotNull String content)
 	{
@@ -116,9 +174,35 @@ public class AfterglowTheme
 		if(options == null || icons == null || overrides == null)
 			throw new InternalError("options, icons and overrides mustn't be null");
 
-		// Load all icons
-		HashMap<String, Icon> iconTable = new HashMap<>();
+		// Options
+		name = options.getAsJsonPrimitive("name").getAsString();
+		author = options.getAsJsonPrimitive("author").getAsString();
 
+		try
+		{
+			JsonArray array = options.getAsJsonArray("tints");
+			if(array != null)
+			{
+				for(int i = 0; i < array.size(); i ++)
+				{
+					JsonObject object = array.get(i).getAsJsonObject();
+
+					try
+					{
+						Tint tint = new Tint(object);
+
+						tintTable.put(tint.getIdentifier(), tint);
+						tintList.add(tint);
+					}
+					catch(Exception e)
+					{}
+				}
+			}
+		}
+		catch(Exception e)
+		{}
+
+		// Load all icons
 		for(int i = 0; i < icons.size(); i++)
 		{
 			JsonObject object = icons.get(i).getAsJsonObject();
@@ -147,7 +231,7 @@ public class AfterglowTheme
 
 			if(icon != null)
 			{
-				AfterglowOverride override = new AfterglowOverride(object, icon);
+				Override override = new Override(object, icon);
 				this.overrides.add(override);
 			}
 			else
@@ -155,13 +239,13 @@ public class AfterglowTheme
 		}
 	}
 
-	private class AfterglowFile
+	private class File
 	{
 		private String extension;
 		private String name;
 		private String type;
 
-		private AfterglowFile(VirtualFile file)
+		private File(VirtualFile file)
 		{
 			type = file.getFileType().getName().toLowerCase();
 			name = file.getName().toLowerCase();
@@ -187,14 +271,61 @@ public class AfterglowTheme
 		}
 	}
 
-	private class AfterglowOverride
+	public class Tint
+	{
+		private String name;
+		private String identifier;
+		private Color color;
+
+		private Tint(@NotNull JsonObject tint)
+		{
+			JsonElement nameElement = tint.getAsJsonPrimitive("name");
+			if(nameElement != null)
+				name = nameElement.getAsString();
+
+			JsonElement identifierElement = tint.getAsJsonPrimitive("identifier");
+			if(identifierElement != null)
+				identifier = identifierElement.getAsString();
+
+			color = getColor(tint.getAsJsonArray("color"));
+		}
+
+		private Color getColor(@NotNull JsonArray values)
+		{
+			if(values == null || values.size() != 3)
+				return null;
+
+			int r = values.get(0).getAsInt();
+			int g = values.get(1).getAsInt();
+			int b = values.get(2).getAsInt();
+
+			return new Color(r, g, b);
+		}
+
+		public String getName()
+		{
+			return name;
+		}
+		public String getIdentifier()
+		{
+			return identifier;
+		}
+		public Color getColor()
+		{
+			return color;
+		}
+	}
+
+	public class Override
 	{
 		private Icon icon = null;
 		private String name = null;
 		private Set<String> extensions = new HashSet<>();
 		private Set<String> types = new HashSet<>();
+		private Set<String> overrides = new HashSet<>();
+		private Set<String> defaults = new HashSet<>();
 
-		public AfterglowOverride(@NotNull JsonObject override, @NotNull Icon icon)
+		public Override(@NotNull JsonObject override, @NotNull Icon icon)
 		{
 			this.icon = icon;
 
@@ -204,6 +335,8 @@ public class AfterglowTheme
 
 			JsonArray extensions = override.getAsJsonArray("extensions");
 			JsonArray types = override.getAsJsonArray("types");
+			JsonArray overrides = override.getAsJsonArray("overrides");
+			JsonArray defaults = override.getAsJsonArray("defaults");
 
 			if(extensions != null)
 			{
@@ -216,6 +349,24 @@ public class AfterglowTheme
 				for(int i = 0; i < types.size(); i++)
 					this.types.add(types.get(i).getAsString().toLowerCase());
 			}
+
+			if(overrides != null)
+			{
+				for(int i = 0; i < overrides.size(); i++)
+					this.overrides.add(overrides.get(i).getAsString());
+			}
+
+			if(defaults != null)
+			{
+				for(int i = 0; i < defaults.size(); i++)
+					this.defaults.add(defaults.get(i).getAsString());
+			}
+
+			if(this.overrides.size() == 0)
+				this.overrides = null;
+
+			if(this.defaults.size() == 0)
+				this.defaults = null;
 		}
 
 		@NotNull
@@ -224,7 +375,13 @@ public class AfterglowTheme
 			return icon;
 		}
 
-		boolean MatchesFile(@NotNull AfterglowFile file)
+		@Nullable
+		Set<String> getOverrides()
+		{
+			return overrides;
+		}
+
+		boolean MatchesFile(@NotNull File file)
 		{
 			if(name != null && name.equals(file.getName()))
 				return true;
@@ -235,7 +392,7 @@ public class AfterglowTheme
 
 			return false;
 		}
-		boolean IsBetterMatch(@NotNull AfterglowOverride other, @NotNull AfterglowFile file)
+		boolean IsBetterMatch(@NotNull Override other, @NotNull File file)
 		{
 			if(name != null && name.equals(file.getName()))
 				return true;

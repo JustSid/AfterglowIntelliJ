@@ -1,32 +1,20 @@
 package com.widerwille.afterglow;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.Gray;
+import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 
 public class AfterglowComponent implements ApplicationComponent
 {
-	public enum Theme
-	{
-		Default,
-		Blue,
-		Magenta,
-		Orange,
-		Green
-	}
-
-	private static final Icon ExpandedIcon = IconLoader.getIcon("/icons/folder-open.png");
-	private static final Icon CollapsedIcon = IconLoader.getIcon("/icons/folder-closed.png");
-	private static Theme activeTheme;
+	private AfterglowTheme.Tint activeTheme = null;
 
 	public void initComponent()
 	{
@@ -74,11 +62,21 @@ public class AfterglowComponent implements ApplicationComponent
 		// Icons
 		try
 		{
-			UIManager.put("Tree.collapsedIcon", CollapsedIcon);
-			UIManager.put("Tree.expandedIcon", ExpandedIcon);
+			Icon expanded = AfterglowThemeManager.getIconForName("EXPANDED");
+			Icon collapsed = AfterglowThemeManager.getIconForName("COLLAPSED");
 
-			setFinalStatic(AllIcons.Mac.class, "Tree_white_right_arrow", CollapsedIcon);
-			setFinalStatic(AllIcons.Mac.class, "Tree_white_down_arrow", ExpandedIcon);
+			if(expanded != null)
+			{
+				UIManager.put("Tree.expandedIcon", expanded);
+				setFinalStatic(AllIcons.Mac.class, "Tree_white_down_arrow", expanded);
+			}
+
+			if(collapsed != null)
+			{
+				UIManager.put("Tree.collapsedIcon", collapsed);
+				setFinalStatic(AllIcons.Mac.class, "Tree_white_right_arrow", collapsed);
+			}
+
 		}
 		catch(Exception e)
 		{
@@ -88,7 +86,8 @@ public class AfterglowComponent implements ApplicationComponent
 
 		AfterglowSettings settings = AfterglowSettings.getInstance();
 		String theme = settings.theme;
-		applyTheme(getThemeForString(theme));
+
+		applyTheme(AfterglowThemeManager.getTint(theme));
 	}
 
 	public void disposeComponent()
@@ -102,81 +101,123 @@ public class AfterglowComponent implements ApplicationComponent
 		return "AfterglowComponent";
 	}
 
-	public static void applyTheme(Theme theme)
+
+	public void applyTheme(AfterglowTheme.Tint tint)
 	{
-		Color directoryColor;
+		AfterglowThemeManager.applyDirectoryTint(tint.getColor());
 
-		switch(theme)
-		{
-			case Blue:
-				directoryColor = new Color(108, 153, 187);
-				break;
-			case Magenta:
-				directoryColor = new Color(128, 67, 93);
-				break;
-			case Orange:
-				directoryColor = new Color(229, 181, 103);
-				break;
-			case Green:
-				directoryColor = new Color(124, 144, 68);
-				break;
-
-			case Default:
-			default:
-				directoryColor = Color.WHITE;
-				break;
-		}
-
-		AfterglowThemeManager.applyDirectoryTint(directoryColor);
-		Application app = ApplicationManager.getApplication();
-
-		app.getComponent(AfterglowIconPack.class).fixIcons();
-		activeTheme = theme;
+		fixIcons();
+		activeTheme = tint;
 
 		AfterglowSettings settings = AfterglowSettings.getInstance();
-		settings.theme = getStringForTheme(activeTheme);
+		settings.theme = tint.getIdentifier();
 	}
 
-	public static Theme getActiveTheme()
+	public AfterglowTheme.Tint getActiveTheme()
 	{
 		return activeTheme;
 	}
 
 
-
-	public static String getStringForTheme(Theme theme)
+	public void fixIcons()
 	{
-		switch(theme)
+		// Override Icon Pack icons
 		{
-			case Blue:
-				return "Blue";
-			case Magenta:
-				return "Magenta";
-			case Orange:
-				return "Orange";
-			case Green:
-				return "Green";
+			HashMap<String, Icon> replacements = new HashMap<>();
+			ArrayList<AfterglowTheme.Override> overrides = AfterglowThemeManager.getIconPackOverrides();
 
-			case Default:
-			default:
-				return "Default";
+			if(overrides != null)
+			{
+				for(AfterglowTheme.Override override : overrides)
+				{
+					Icon icon = override.getIcon();
+
+					try
+					{
+						for(String name : override.getOverrides())
+							replacements.put(name, icon);
+					}
+					catch(NullPointerException e)
+					{
+						e.printStackTrace();
+					}
+				}
+
+				fixIcons(AllIcons.class, replacements);
+			}
 		}
 	}
-	public static Theme getThemeForString(String string)
-	{
-		if(string.equals("Blue"))
-			return Theme.Blue;
-		else if(string.equals("Magenta"))
-			return Theme.Magenta;
-		else if(string.equals("Orange"))
-			return Theme.Orange;
-		else if(string.equals("Green"))
-			return Theme.Green;
 
-		return Theme.Default;
+	private void fixIcons(Class iconsClass, HashMap<String, Icon> replacements)
+	{
+		Field[] fields = iconsClass.getDeclaredFields();
+
+		for(int i = 0; i < fields.length; i ++)
+		{
+			Field subClass = fields[i];
+
+			if(Modifier.isStatic(subClass.getModifiers()))
+			{
+				try
+				{
+					Object ignored = subClass.get(null);
+					Class byClass = ignored.getClass();
+
+					if(byClass.getName().endsWith("$CachedImageIcon"))
+					{
+						Icon icon = findReplacement(ignored, replacements);
+						if(icon != null)
+						{
+							try
+							{
+								setFinalStatic(subClass, icon);
+								System.out.println("Added diversion of " + subClass.getName());
+							}
+							catch(Exception e)
+							{
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				catch(IllegalAccessException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+
+		Class[] classes = iconsClass.getDeclaredClasses();
+
+		for(Class cls : classes)
+			fixIcons(cls, replacements);
 	}
 
+	private Icon findReplacement(Object object, HashMap<String, Icon> replacements)
+	{
+		try
+		{
+			Field pathField = object.getClass().getDeclaredField("myOriginalPath");
 
+			pathField.setAccessible(true);
+
+			Object path = pathField.get(object);
+
+			if(path instanceof String)
+			{
+				pathField.setAccessible(false);
+				return replacements.get(path);
+			}
+
+			pathField.setAccessible(false);
+			return null;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	private static void setFinalStatic(Class cls, String fieldName, Object newValue) throws Exception
 	{
@@ -203,5 +244,10 @@ public class AfterglowComponent implements ApplicationComponent
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
 		field.set(null, newValue);
+
+		modifiersField.setInt(field, field.getModifiers() | Modifier.FINAL);
+		modifiersField.setAccessible(false);
+
+		field.setAccessible(false);
 	}
 }

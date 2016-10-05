@@ -59,9 +59,6 @@
             <implementation-class>com.widerwille.afterglow.AfterglowComponent</implementation-class>
         </component>
         <component>
-            <implementation-class>com.widerwille.afterglow.AfterglowIconPack</implementation-class>
-        </component>
-        <component>
             <implementation-class>com.widerwille.afterglow.AfterglowIconCache</implementation-class>
         </component>
     </application-components>

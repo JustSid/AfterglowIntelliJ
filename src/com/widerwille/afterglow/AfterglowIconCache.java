@@ -34,6 +34,11 @@ public class AfterglowIconCache implements ApplicationComponent
 		return "AfterglowIconCache";
 	}
 
+	@Nullable
+	public void clearCache()
+	{
+		fileCache = new HashMap<>();
+	}
 
 	@Nullable
 	private String getLookup(VirtualFile file, int flags)
