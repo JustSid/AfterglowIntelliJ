@@ -13,10 +13,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AfterglowTheme
 {
@@ -26,7 +23,7 @@ public class AfterglowTheme
 	private String name;
 	private String author;
 	private JsonObject options;
-	private HashMap<String, Icon> iconTable = new HashMap<>();
+	private HashMap<String, ThemeIcon> iconTable = new HashMap<>();
 	private HashMap<String, Tint> tintTable = new HashMap<>();
 	private ArrayList<Tint> tintList = new ArrayList<>();
 	private ArrayList<Override> overrides = new ArrayList<>();
@@ -106,7 +103,11 @@ public class AfterglowTheme
 	@Nullable
 	public Icon getIconForName(@NotNull String name)
 	{
-		return iconTable.get(name);
+		ThemeIcon icon = iconTable.get(name);
+		if(icon != null)
+			return icon.getIcon();
+
+		return null;
 	}
 
 	@Nullable
@@ -156,9 +157,16 @@ public class AfterglowTheme
 	{
 		return tintTable.get(identifier);
 	}
+
 	public ArrayList<Tint> getTints()
 	{
 		return tintList;
+	}
+
+	public void applyTint(Color color)
+	{
+		for(ThemeIcon icon : iconTable.values())
+			icon.applyTint(color);
 	}
 
 
@@ -207,17 +215,15 @@ public class AfterglowTheme
 		{
 			JsonObject object = icons.get(i).getAsJsonObject();
 
-			String name = object.getAsJsonPrimitive("name").getAsString();
-			String file = object.getAsJsonPrimitive("icon").getAsString();
-
 			try
 			{
-				Icon icon = IconLoader.getIcon(file);
-				iconTable.put(name, icon);
+				ThemeIcon icon = new ThemeIcon(object);
+				iconTable.put(icon.getIdentifier(), icon);
 			}
 			catch(Exception e)
 			{
-				LOG.error("Couldn't load icon " + file);
+				LOG.error("Couldn't load icon");
+				e.printStackTrace();
 			}
 		}
 
@@ -227,7 +233,7 @@ public class AfterglowTheme
 			JsonObject object = overrides.get(i).getAsJsonObject();
 
 			String iconName = object.getAsJsonPrimitive("icon").getAsString();
-			Icon icon = iconTable.get(iconName);
+			ThemeIcon icon = iconTable.get(iconName);
 
 			if(icon != null)
 			{
@@ -268,6 +274,45 @@ public class AfterglowTheme
 		String getType()
 		{
 			return type;
+		}
+	}
+
+	public class ThemeIcon
+	{
+		private Icon original;
+		private Icon postProcessed = null; // Tinted, if tintable icon
+		private boolean tintable = false;
+		private String identifier;
+
+		private ThemeIcon(@NotNull JsonObject object)
+		{
+			String name = object.getAsJsonPrimitive("name").getAsString();
+			String file = object.getAsJsonPrimitive("icon").getAsString();
+
+			if(name == null || file == null)
+				throw new IllegalArgumentException("Invalid arguments, icon needs a name and a file");
+
+			identifier = name;
+			original = IconLoader.getIcon(file);
+
+			JsonPrimitive tintable = object.getAsJsonPrimitive("tint");
+			if(tintable != null && tintable.isBoolean())
+				this.tintable = tintable.getAsBoolean();
+		}
+
+		private void applyTint(Color color)
+		{
+			if(tintable)
+				postProcessed = new AfterglowTintedIcon(original, color);
+		}
+
+		public String getIdentifier()
+		{
+			return identifier;
+		}
+		public Icon getIcon()
+		{
+			return (postProcessed != null) ? postProcessed : original;
 		}
 	}
 
@@ -318,14 +363,14 @@ public class AfterglowTheme
 
 	public class Override
 	{
-		private Icon icon = null;
+		private ThemeIcon icon = null;
 		private String name = null;
 		private Set<String> extensions = new HashSet<>();
 		private Set<String> types = new HashSet<>();
 		private Set<String> overrides = new HashSet<>();
 		private Set<String> defaults = new HashSet<>();
 
-		public Override(@NotNull JsonObject override, @NotNull Icon icon)
+		public Override(@NotNull JsonObject override, @NotNull ThemeIcon icon)
 		{
 			this.icon = icon;
 
@@ -372,7 +417,7 @@ public class AfterglowTheme
 		@NotNull
 		Icon getIcon()
 		{
-			return icon;
+			return icon.getIcon();
 		}
 
 		@Nullable

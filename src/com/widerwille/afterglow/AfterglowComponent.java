@@ -92,7 +92,6 @@ public class AfterglowComponent implements ApplicationComponent
 
 	public void disposeComponent()
 	{
-		AfterglowThemeManager.cleanUp();
 	}
 
 	@NotNull
@@ -104,9 +103,9 @@ public class AfterglowComponent implements ApplicationComponent
 
 	public void applyTheme(AfterglowTheme.Tint tint)
 	{
-		AfterglowThemeManager.applyDirectoryTint(tint.getColor());
-
+		AfterglowThemeManager.applyTint(tint.getColor());
 		fixIcons();
+
 		activeTheme = tint;
 
 		AfterglowSettings settings = AfterglowSettings.getInstance();

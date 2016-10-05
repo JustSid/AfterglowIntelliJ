@@ -20,15 +20,10 @@ public class AfterglowThemeManager
 {
 	private static final Logger LOG = Logger.getInstance(AfterglowThemeManager.class);
 
-	public static Icon DIRECTORY_ORIGINAL = null;
-	public static Icon DIRECTORY = DIRECTORY_ORIGINAL;
-
+	public static Icon DIRECTORY = null;
 	public static Icon ANY = null;
 	public static Icon BINARY = null;
 	public static Icon TEXT = null;
-
-	public static String DIRECTORY_FILE = null;
-	private static File tempIcon = null;
 
 	private static ArrayList<AfterglowTheme> themes = new ArrayList<>();
 
@@ -45,12 +40,6 @@ public class AfterglowThemeManager
 		{
 			LOG.error("Couldn't load theme.json", e);
 		}
-
-		// Get the generic icons
-		DIRECTORY_ORIGINAL = getIconForName("FOLDER");
-		ANY = getIconForName("ANY");
-		BINARY = getIconForName("BINARY");
-		TEXT = getIconForName("TEXT");
 	}
 
 	public static void addTheme(AfterglowTheme theme)
@@ -61,46 +50,16 @@ public class AfterglowThemeManager
 		cache.clearCache();
 	}
 
-	public static void applyDirectoryTint(Color color)
+	public static void applyTint(Color color)
 	{
-		if(DIRECTORY_ORIGINAL == null)
-			return;
+		for(AfterglowTheme theme : themes)
+			theme.applyTint(color);
 
-		AfterglowTintedIcon tintedIcon = new AfterglowTintedIcon(DIRECTORY_ORIGINAL, color);
-		DIRECTORY = tintedIcon;
-
-		try
-		{
-			if(tempIcon != null)
-			{
-				tempIcon.delete();
-				tempIcon = null;
-			}
-
-			String suffix = tintedIcon.isRetina() ? "@2x.png" : ".png";
-
-			tempIcon = File.createTempFile("AfterglowTintedDirectory", suffix);
-			ImageIO.write(tintedIcon.getImage(), "png", tempIcon);
-
-			String path = tempIcon.getParent();
-			String name = tempIcon.getName();
-
-			DIRECTORY_FILE = path + "/" + name.substring(0, name.length() - suffix.length()) + ".png";
-		}
-		catch(IOException e)
-		{
-			DIRECTORY_FILE = null;
-			tempIcon = null;
-		}
-	}
-
-	public static void cleanUp()
-	{
-		if(tempIcon != null)
-		{
-			tempIcon.delete();
-			tempIcon = null;
-		}
+		// Update icons that may have changed
+		DIRECTORY = getIconForName("FOLDER");
+		ANY = getIconForName("ANY");
+		BINARY = getIconForName("BINARY");
+		TEXT = getIconForName("TEXT");
 	}
 
 	@Nullable
