@@ -442,6 +442,10 @@ public class AfterglowTheme
 			if(name != null && name.equals(file.getName()))
 				return true;
 			if(other.name != null && other.name.equals(file.getName()))
+
+			if(extensions.contains(file.getExtension()))
+				return true;
+			if(other.extensions.contains(file.getExtension()))
 				return false;
 
 			if(types.contains(file.getType()))
